@@ -25,4 +25,7 @@ public class Restaurant {
 
     @Column(name = "restaurant_phone", nullable = false, length = 20)
     private String restaurantPhone;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuItem> menuItems = new ArrayList<>();
 }

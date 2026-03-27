@@ -1,4 +1,8 @@
 package com.foodservice.respository;
+import com.foodservice.entity.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class CustomerRepository {
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }

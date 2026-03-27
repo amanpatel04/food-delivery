@@ -15,21 +15,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    // ✅ Get all customers
+    // Get all customers
     @Override
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
-                .map(CustomMapper::toDTO)
+                .map(CustomMapper::customerToCustomerDTO)
                 .toList();
     }
 
-    // ✅ Get by ID
+    // Get by ID
     @Override
     public CustomerDTO getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
 
-        return CustomMapper.toDTO(customer);
+        return CustomMapper.customerToCustomerDTO(customer);
     }
 }

@@ -9,18 +9,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/customers")
+@RequestMapping("/api/v1/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    // ✅ Get all customers
-    @GetMapping
+    // Get all customers
+    @GetMapping("/all")
     public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    // ✅ Get customer by id
+    // Get customer by id
     @GetMapping("/{id}")
     public CustomerDTO getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);

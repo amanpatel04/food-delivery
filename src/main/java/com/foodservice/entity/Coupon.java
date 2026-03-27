@@ -1,14 +1,22 @@
 package com.foodservice.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
-@Table(name="coupons")
+@Table(name="Coupons")
 public class Coupon {
 	
 	@Id
@@ -19,40 +27,9 @@ public class Coupon {
 	private String code;
 	
 	@Column(name="discount_amount")
-	private double discount;
+	private BigDecimal discount;
 	
 	@Column(name="expiry_date")
 	private LocalDate expiryDate;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public double getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(double discount) {
-		this.discount = discount;
-	}
-
-	public LocalDate getExpiryDate() {
-		return expiryDate;
-	}
-
-	public void setExpiryDate(LocalDate expiryDate) {
-		this.expiryDate = expiryDate;
-	}
 }

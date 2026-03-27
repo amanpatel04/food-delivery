@@ -6,6 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MenuItemService {
-    MenuItemResponseDTO addMenuItem(MenuItemRequestDTO requestDTO);
+//    MenuItemResponseDTO addMenuItem(MenuItemRequestDTO requestDTO);
     Page<MenuItemResponseDTO> getMenuByRestaurantId(Integer restaurantId, Pageable pageable);
 }

@@ -6,6 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface RestaurantService {
-    RestaurantResponseDTO createRestaurant(RestaurantRequestDTO requestDTO);
+//    RestaurantResponseDTO createRestaurant(RestaurantRequestDTO requestDTO);
     Page<RestaurantResponseDTO> getAllRestaurants(Pageable pageable);
 }

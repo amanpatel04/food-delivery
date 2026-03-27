@@ -21,33 +21,32 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     private final MenuItemRepository menuItemRepository;
     private final RestaurantRepository restaurantRepository;
-    private final CustomMapper customMapper;
 
-    @Override
-    public MenuItemResponseDTO addMenuItem(MenuItemRequestDTO requestDTO) {
-        log.info("Adding new menu item '{}' to restaurant ID: {}", requestDTO.getItemName(), requestDTO.getRestaurantId());
-
-        // Fetch the restaurant first to establish the relationship
-        Restaurant restaurant = restaurantRepository.findById(requestDTO.getRestaurantId())
-                .orElseThrow(() -> {
-                    log.error("Restaurant ID {} not found", requestDTO.getRestaurantId());
-                    return new RuntimeException("Restaurant not found");
-                });
-
-        MenuItem menuItem = customMapper.toMenuItemEntity(requestDTO);
-        menuItem.setRestaurant(restaurant); // Set the foreign key relationship
-
-        MenuItem savedItem = menuItemRepository.save(menuItem);
-        log.info("Successfully added menu item with ID: {}", savedItem.getItemId());
-
-        return customMapper.toMenuItemDto(savedItem);
-    }
+//    @Override
+//    public MenuItemResponseDTO addMenuItem(MenuItemRequestDTO requestDTO) {
+//        log.info("Adding new menu item '{}' to restaurant ID: {}", requestDTO.getItemName(), requestDTO.getRestaurantId());
+//
+//        // Fetch the restaurant first to establish the relationship
+//        Restaurant restaurant = restaurantRepository.findById(requestDTO.getRestaurantId())
+//                .orElseThrow(() -> {
+//                    log.error("Restaurant ID {} not found", requestDTO.getRestaurantId());
+//                    return new RuntimeException("Restaurant not found");
+//                });
+//
+//        MenuItem menuItem = customMapper.toMenuItemEntity(requestDTO);
+//        menuItem.setRestaurant(restaurant); // Set the foreign key relationship
+//
+//        MenuItem savedItem = menuItemRepository.save(menuItem);
+//        log.info("Successfully added menu item with ID: {}", savedItem.getItemId());
+//
+//        return customMapper.toMenuItemDto(savedItem);
+//    }
 
     @Override
     public Page<MenuItemResponseDTO> getMenuByRestaurantId(Integer restaurantId, Pageable pageable) {
         log.info("Fetching menu for restaurant ID: {} - Page: {}", restaurantId, pageable.getPageNumber());
 
         return menuItemRepository.findByRestaurant_RestaurantId(restaurantId, pageable)
-                .map(customMapper::toMenuItemDto);
+                .map(CustomMapper::toMenuItemDto);
     }
 }

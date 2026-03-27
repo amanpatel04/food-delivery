@@ -18,24 +18,23 @@ import org.springframework.stereotype.Service;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final CustomMapper customMapper;
 
-    @Override
-    public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO requestDTO) {
-        log.info("Creating new restaurant: {}", requestDTO.getRestaurantName());
-
-        // Basic check to prevent duplicate phone numbers
-        if (restaurantRepository.existsByRestaurantPhone(requestDTO.getRestaurantPhone())) {
-            log.error("Restaurant creation failed. Phone number already exists: {}", requestDTO.getRestaurantPhone());
-            throw new RuntimeException("Phone number already in use");
-        }
-
-        Restaurant restaurant = customMapper.toRestaurantEntity(requestDTO);
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-
-        log.info("Successfully created restaurant with ID: {}", savedRestaurant.getRestaurantId());
-        return customMapper.toRestaurantDto(savedRestaurant);
-    }
+//    @Override
+//    public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO requestDTO) {
+//        log.info("Creating new restaurant: {}", requestDTO.getRestaurantName());
+//
+//        // Basic check to prevent duplicate phone numbers
+//        if (restaurantRepository.existsByRestaurantPhone(requestDTO.getRestaurantPhone())) {
+//            log.error("Restaurant creation failed. Phone number already exists: {}", requestDTO.getRestaurantPhone());
+//            throw new RuntimeException("Phone number already in use");
+//        }
+//
+//        Restaurant restaurant = customMapper.toRestaurantEntity(requestDTO);
+//        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+//
+//        log.info("Successfully created restaurant with ID: {}", savedRestaurant.getRestaurantId());
+//        return customMapper.toRestaurantDto(savedRestaurant);
+//    }
 
     @Override
     public Page<RestaurantResponseDTO> getAllRestaurants(Pageable pageable) {
@@ -43,6 +42,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         // The repository returns a Page<Restaurant>, and we map each one to a DTO
         return restaurantRepository.findAll(pageable)
-                .map(customMapper::toRestaurantDto);
+                .map(CustomMapper::toRestaurantDto);
     }
 }

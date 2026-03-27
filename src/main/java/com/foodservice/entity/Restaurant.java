@@ -1,5 +1,6 @@
 package com.foodservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -27,5 +28,6 @@ public class Restaurant {
     private String restaurantPhone;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<MenuItem> menuItems = new ArrayList<>();
 }

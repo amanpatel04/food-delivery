@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/menu-items")
+@RequestMapping("/api/v1/menu-item")
 @RequiredArgsConstructor
 public class MenuItemController {
 

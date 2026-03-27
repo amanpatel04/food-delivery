@@ -7,12 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
-
-    // Allows searching for restaurants by name with pagination
-    Page<Restaurant> findByRestaurantNameContainingIgnoreCases(String name, Pageable pageable);
-
-    // Highly efficient in preventing duplicate phone numbers
-    boolean existsByRestaurantPhone(String phone);
-
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+    Page<Restaurant> findByRestaurantNameContainingIgnoreCase(String name, Pageable pageable);
 }

@@ -5,7 +5,6 @@ import com.foodservice.entity.dto.CustomerDTO;
 
 public class CustomMapper {
 
-        public static CustomerDTO customerToCustomerDTO(Customer customer) {
             CustomerDTO dto = new CustomerDTO();
             dto.setId(customer.getId());
             dto.setName(customer.getName());
@@ -14,7 +13,6 @@ public class CustomMapper {
             return dto;
         }
 
-        public static Customer customerDTOToCustomer(CustomerDTO dto) {
             Customer customer = new Customer();
             customer.setId(dto.getId());
             customer.setName(dto.getName());

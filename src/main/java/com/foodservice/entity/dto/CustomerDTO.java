@@ -4,9 +4,7 @@ import lombok.Data;
 
 @Data
 public class CustomerDTO {
-
-    private Integer id;
-    private String name;
-    private String email;
-    private String phone;
+    private String customerName;
+    private String customerEmail;
+    private String customerPhone;
 }

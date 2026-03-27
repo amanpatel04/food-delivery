@@ -14,7 +14,7 @@ public class DeliveryAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
-    private Long id;
+    private Integer id;
 
     // Relationship with Customer
     @ManyToOne

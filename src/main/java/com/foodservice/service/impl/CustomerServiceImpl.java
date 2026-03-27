@@ -2,7 +2,7 @@ package com.foodservice.service.impl;
 import com.foodservice.config.CustomMapper;
 import com.foodservice.entity.Customer;
 import com.foodservice.entity.dto.CustomerDTO;
-import com.foodservice.respository.CustomerRepository;
+import com.foodservice.repository.CustomerRepository;
 import com.foodservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     // Get by ID
     @Override
-    public CustomerDTO getCustomerById(Long id) {
+    public CustomerDTO getCustomerById(Integer id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
 

@@ -4,8 +4,8 @@ import lombok.Data;
 @Data
 public class DeliveryAddressDTO {
 
-    private Long id;
-    private Long customerId;
+    private Integer id;
+    private Integer customerId;
 
     private String addressLine1;
     private String addressLine2;

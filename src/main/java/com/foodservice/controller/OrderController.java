@@ -22,9 +22,10 @@ public class OrderController {
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<ResponseDTO> getOrdersByCustomerId(@PathVariable Integer customerId) {
         OrderCustomerDTO orderDTO = orderService.getOrdersByCustomerId(customerId);
+        
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(200, customerId+" success", orderDTO));
+                .body(new ResponseDTO(200, "customer having id: "+customerId+" has " + orderDTO.getOrderItems().size() + " order", orderDTO));
     }
 
     @GetMapping("/detail/{orderId}")
@@ -33,6 +34,6 @@ public class OrderController {
 
         return ResponseEntity
                 .status(200)
-                .body(new ResponseDTO(200, "order details by order id", orderDTO));
+                .body(new ResponseDTO(200, "order detail having id: " + orderId, orderDTO));
     }
 }

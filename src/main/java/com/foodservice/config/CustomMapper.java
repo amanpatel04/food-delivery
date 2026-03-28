@@ -36,7 +36,7 @@ public class CustomMapper {
 
     public static RestaurantResponseDTO toRestaurantDto(Restaurant entity) {
         RestaurantResponseDTO dto = new RestaurantResponseDTO();
-        dto.setRestaurantId(entity.getRestaurantId());
+        // dto.setRestaurantId(entity.getRestaurantId());
         dto.setRestaurantName(entity.getRestaurantName());
         dto.setRestaurantAddress(entity.getRestaurantAddress());
         dto.setRestaurantPhone(entity.getRestaurantPhone());
@@ -65,9 +65,14 @@ public class CustomMapper {
     }
 
     public static OrderDTO orderToOrderDTO(Order order, OrderDTO orderDTO) {
-        orderDTO.setCustomer(order.getCustomer());
-        orderDTO.setRestaurant(order.getRestaurant());
-        orderDTO.setDeliveryDriver(order.getDeliveryDriver());
+        DeliveryDriverDTO deliveryDriverDTO = new DeliveryDriverDTO();
+        deliveryDriverDTO.setDriverName(order.getDeliveryDriver().getDriverName());
+        deliveryDriverDTO.setDriverPhone(order.getDeliveryDriver().getDriverPhone());
+        deliveryDriverDTO.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
+
+        orderDTO.setCustomer(customerToCustomerDTO(order.getCustomer()));
+        orderDTO.setRestaurant(toRestaurantDto(order.getRestaurant()));
+        orderDTO.setDeliveryDriver(deliveryDriverDTO);
         orderDTO.setOrderStatus(order.getOrderStatus());
         orderDTO.setOrderDate(order.getOrderDate());
         return orderDTO;

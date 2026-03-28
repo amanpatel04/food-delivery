@@ -1,10 +1,10 @@
 package com.foodservice.service.impl;
-
 import com.foodservice.entity.Customer;
 import com.foodservice.entity.DeliveryAddress;
 import com.foodservice.entity.dto.CustomerDTO;
 import com.foodservice.config.CustomMapper;
 import com.foodservice.entity.dto.OrderItemDetailDTO;
+import com.foodservice.exception.ResourceNotFoundException;
 import com.foodservice.repository.CustomerRepository;
 import com.foodservice.repository.DeliveryAddressRepository;
 import com.foodservice.repository.OrderRepository;
@@ -27,27 +27,40 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerById(Integer customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Customer not found with id: " + customerId)
+                );
 
         return CustomMapper.customerToCustomerDTO(customer);
     }
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        return customerRepository.findAll()
-                .stream()
+        List<Customer> customers = customerRepository.findAll();
+
+        if (customers.isEmpty()) {
+            throw new ResourceNotFoundException("No customers found");
+        }
+
+        return customers.stream()
                 .map(CustomMapper::customerToCustomerDTO)
                 .toList();
     }
 
     @Override
     public List<CustomerDTO> getCustomersByCity(String city) {
-        return addressRepository.findByCityIgnoreCase(city)
+        List<CustomerDTO> customers = addressRepository.findByCityIgnoreCase(city)
                 .stream()
                 .map(DeliveryAddress::getCustomer)
                 .distinct()
                 .map(CustomMapper::customerToCustomerDTO)
                 .toList();
+
+        if (customers.isEmpty()) {
+            throw new ResourceNotFoundException("No customers found in city: " + city);
+        }
+
+        return customers;
     }
 
     @Override
@@ -56,21 +69,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Object getCustomerAnalytics(Integer customerId) {
+    public Map<String, Object> getCustomerAnalytics(Integer customerId) {
 
         List<OrderItemDetailDTO> items =
                 orderRepository.getOrderDetailsByCustomerId(customerId);
 
-        int totalOrders = (int) items.stream()
+        if (items == null || items.isEmpty()) {
+            throw new ResourceNotFoundException("No order data found for customer id: " + customerId);
+        }
+
+        Integer totalOrders = (int) items.stream()
                 .map(OrderItemDetailDTO::getOrderDate)
                 .distinct()
                 .count();
 
-        double totalSpend = items.stream()
+        Double totalSpend = items.stream()
                 .mapToDouble(i -> i.getQuantity() * i.getItemPrice().doubleValue())
                 .sum();
 
-        double avgOrderValue = totalOrders == 0 ? 0 : totalSpend / totalOrders;
+        Double avgOrderValue = totalOrders == 0
+                ? 0.0
+                : totalSpend / totalOrders;
 
         Map<String, Object> response = new HashMap<>();
         response.put("totalOrders", totalOrders);

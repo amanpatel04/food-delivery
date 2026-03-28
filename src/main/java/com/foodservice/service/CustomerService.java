@@ -5,6 +5,13 @@ import com.foodservice.entity.dto.CustomerDTO;
 import java.util.List;
 
 public interface CustomerService {
+    CustomerDTO getCustomerById(Integer customerId);
+
     List<CustomerDTO> getAllCustomers();
-    CustomerDTO getCustomerById(Integer id);
+
+    List<CustomerDTO> getCustomersByCity(String city);
+
+    int getAddressCount(Integer customerId);
+
+    Object getCustomerAnalytics(Integer customerId);
 }

@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
-    private Customer customer;
-    private Restaurant restaurant;
-    private DeliveryDriver deliveryDriver;
+    private CustomerDTO customer;
+    private RestaurantResponseDTO restaurant;
+    private DeliveryDriverDTO deliveryDriver;
     private LocalDateTime orderDate;
     private String orderStatus;
     private List<OrderItemDetailDTO> orderItems;

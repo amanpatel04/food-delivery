@@ -1,5 +1,4 @@
 package com.foodservice.exception;
-
 import com.foodservice.entity.dto.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +20,21 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // Resource Not Found (404)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(
+            ResourceNotFoundException ex,
+            WebRequest webRequest) {
+
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                LocalDateTime.now(),
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

@@ -1,0 +1,21 @@
+This file is a sample configuration file for the application.
+you have to replace the values with your own values.
+
+server:
+  port: portNumber
+
+spring:
+  application:
+    name: applicationName
+  datasource:
+    url: databaseUrl
+    username: databaseUsername
+    password: databasePassword
+    driver-class-name: databaseDriverClassName
+  jpa:
+    hibernate:
+      ddl-auto: databaseDdlAuto
+      naming:
+        strategy: databaseNamingStrategy
+    show-sql: true/false
+    database-platform: databasePlatform

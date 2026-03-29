@@ -1,10 +1,8 @@
 package com.foodservice.config;
 
-import java.math.BigDecimal;
-
-import com.foodservice.entity.Coupon;
+import com.foodservice.entity.*;
 import com.foodservice.entity.Customer;
-import com.foodservice.entity.DeliveryAddress;
+import com.foodservice.entity.DeliveryDriver;
 import com.foodservice.entity.MenuItem;
 import com.foodservice.entity.Order;
 import com.foodservice.entity.Restaurant;
@@ -83,10 +81,14 @@ public class CustomMapper {
         orderDTO.setCustomer(customerToCustomerDTO(order.getCustomer()));
         orderDTO.setRestaurant(toRestaurantDto(order.getRestaurant()));
         orderDTO.setDeliveryDriver(deliveryDriverDTO);
+        orderDTO.setCustomer(order.getCustomer());
+        orderDTO.setRestaurant(order.getRestaurant());
+        orderDTO.setDeliveryDriver(order.getDeliveryDriver());
         orderDTO.setOrderStatus(order.getOrderStatus());
         orderDTO.setOrderDate(order.getOrderDate());
         return orderDTO;
     }
+
 
     public static DeliveryAddressDTO deliveryAddressToDTO(DeliveryAddress address) {
         DeliveryAddressDTO dto = new DeliveryAddressDTO();
@@ -102,10 +104,21 @@ public class CustomMapper {
         dto.setCity(address.getCity());
         dto.setState(address.getState());
         dto.setPostalCode(address.getPostalCode());
-
+    
         return dto;
     }
+    
+    public static DeliveryDriverResponseDTO deliveryDriverToDTO(DeliveryDriver driver) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
 
+        dto.setDriverId(driver.getDriverId());
+        dto.setDriverName(driver.getDriverName());
+        dto.setDriverPhone(driver.getDriverPhone());
+        dto.setDriverVehicle(driver.getDriverVehicle());
+        return dto;
+    }
+    
+    
     public static DeliveryAddress dtoToDeliveryAddress(DeliveryAddressDTO dto) {
         DeliveryAddress address = new DeliveryAddress();
 
@@ -124,6 +137,17 @@ public class CustomMapper {
         address.setPostalCode(dto.getPostalCode());
 
         return address;
+    }
+    
+    public static DeliveryDriverResponseDTO deliveryDriverToDTO(DeliveryDriver driver) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+
+        dto.setDriverId(driver.getDriverId());
+        dto.setDriverName(driver.getDriverName());
+        dto.setDriverPhone(driver.getDriverPhone());
+        dto.setDriverVehicle(driver.getDriverVehicle());
+
+        return dto;
     }
     
 }

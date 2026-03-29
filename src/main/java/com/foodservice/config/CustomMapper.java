@@ -1,21 +1,9 @@
 package com.foodservice.config;
 
-import java.math.BigDecimal;
+import com.foodservice.entity.dto.*;
+import com.foodservice.entity.*;
 
-import com.foodservice.entity.Coupon;
-import com.foodservice.entity.Customer;
-import com.foodservice.entity.DeliveryAddress;
-import com.foodservice.entity.MenuItem;
-import com.foodservice.entity.Order;
-import com.foodservice.entity.Restaurant;
-import com.foodservice.entity.dto.CustomerDTO;
-import com.foodservice.entity.dto.DeliveryAddressDTO;
-import com.foodservice.entity.dto.DeliveryDriverDTO;
-import com.foodservice.entity.dto.MenuItemRequestDTO;
-import com.foodservice.entity.dto.MenuItemResponseDTO;
-import com.foodservice.entity.dto.OrderDTO;
-import com.foodservice.entity.dto.RestaurantRequestDTO;
-import com.foodservice.entity.dto.RestaurantResponseDTO;
+import java.util.List;
 
 public class CustomMapper {
 
@@ -74,7 +62,9 @@ public class CustomMapper {
         return dto;
     }
 
+    // order mapper
     public static OrderDTO orderToOrderDTO(Order order, OrderDTO orderDTO) {
+
         DeliveryDriverDTO deliveryDriverDTO = new DeliveryDriverDTO();
         deliveryDriverDTO.setDriverName(order.getDeliveryDriver().getDriverName());
         deliveryDriverDTO.setDriverPhone(order.getDeliveryDriver().getDriverPhone());
@@ -85,8 +75,34 @@ public class CustomMapper {
         orderDTO.setDeliveryDriver(deliveryDriverDTO);
         orderDTO.setOrderStatus(order.getOrderStatus());
         orderDTO.setOrderDate(order.getOrderDate());
+
         return orderDTO;
     }
+
+    // order with item mapper
+    public static OrderWithItemDTO orderToOrderWithItemDTO(Order order, OrderWithItemDTO orderWithItemDTO, List<ItemWithQuantity> itemWithQuantity) {
+
+        orderWithItemDTO.setOrderItems(itemWithQuantity);
+        orderWithItemDTO.setCustomer(customerToCustomerDTO(order.getCustomer()));
+        orderWithItemDTO.setRestaurant(toRestaurantDto(order.getRestaurant()));
+        orderWithItemDTO.setDeliveryDriver(deliveryDriverTODeliveryDriverDTO(order.getDeliveryDriver(), new DeliveryDriverDTO()));
+        orderWithItemDTO.setOrderDate(order.getOrderDate());
+        orderWithItemDTO.setOrderStatus(order.getOrderStatus());
+        return orderWithItemDTO;
+    }
+
+    // order item mapper
+    public static OrderItemDTO orderItemToOrderItemDTO(OrderItem orderItem, OrderItemDTO orderItemDTO) {
+
+
+        orderItemDTO.setOrderDTO(CustomMapper.orderToOrderDTO(orderItem.getOrder(), new OrderDTO()));
+        orderItemDTO.setMenuItemResponseDTO(CustomMapper.toMenuItemDto(orderItem.getMenuItem()));
+        orderItemDTO.setQuantity(orderItem.getQuantity());
+
+        return orderItemDTO;
+    }
+
+
 
     public static DeliveryAddressDTO deliveryAddressToDTO(DeliveryAddress address) {
         DeliveryAddressDTO dto = new DeliveryAddressDTO();
@@ -125,5 +141,13 @@ public class CustomMapper {
 
         return address;
     }
+
+    public static DeliveryDriverDTO deliveryDriverTODeliveryDriverDTO (DeliveryDriver deliveryDriver, DeliveryDriverDTO deliveryDriverDTO) {
+        deliveryDriverDTO.setDriverName(deliveryDriver.getDriverName());
+        deliveryDriverDTO.setDriverPhone(deliveryDriver.getDriverPhone());
+        deliveryDriverDTO.setDriverVehicle(deliveryDriver.getDriverVehicle());
+        return deliveryDriverDTO;
+    }
+
     
 }

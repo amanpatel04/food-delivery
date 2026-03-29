@@ -39,8 +39,4 @@ public class Order {
     @JoinColumn(name = "delivery_driver_id", referencedColumnName = "driver_id", insertable = false, updatable = false)
     private DeliveryDriver deliveryDriver;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<OrderItem> orderItems;
-
 }

@@ -52,4 +52,12 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+    
+    @ExceptionHandler(DriverNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDriverNotFound(DriverNotFoundException ex) {
+        return new ResponseEntity<>(
+            new ErrorResponseDTO(404, ex.getMessage()),
+            HttpStatus.NOT_FOUND
+        );
+    }
 }

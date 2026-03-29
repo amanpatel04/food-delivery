@@ -18,8 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeliveryDriverServiceImpl implements DeliveryDriverService {
 
-    private final DeliveryDriverRepository deliveryDriverRepository=null;
-    private final OrderRepository orderRepository=null;
+	private final DeliveryDriverRepository deliveryDriverRepository;
+	private final OrderRepository orderRepository;
 
 
     @Override
@@ -38,24 +38,21 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
                 .toList();
     }
 
-//    @Override
-//    public List<DeliveryDriverResponseDTO> getDriverDeliveries(Long driverId) {
-//
-//        List<Order> orders = orderRepository.findOrdersByDriverId(driverId);
-//
-//        return orders.stream().map(order -> DriverDeliveryResponseDTO.builder()
-//                        .orderId(order.getOrderId())
-//                        .customerName(order.getCustomer().getCustomerName())
-//                        .restaurantName(order.getRestaurant().getRestaurantName())
-//                        .orderStatus(order.getOrderStatus())
-//                        .build()
-//                )
-//                .toList();
-//    }
-
     @Override
     public List<DeliveryDriverResponseDTO> getDriverDeliveries(Long driverId) {
-    	return null;
+
+        List<Order> orders = orderRepository.findOrdersByDriverId(driverId);
+
+        return orders.stream()
+                .map(order -> {
+                    DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+                    dto.setOrderId(order.getOrderId());
+                    dto.setCustomerName(order.getCustomer().getCustomerName());
+                    dto.setResturentName(order.getRestaurant().getRestaurantName());
+                    dto.setOrderStatus(order.getOrderStatus());
+                    return dto;
+                })
+                .toList();
     }
     
 //	@Override

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 public class DeliveryDriverResponseDTO {
 //
-    private Long driverId;
+    private Integer driverId;
     private String driverName;
     private String driverPhone;
     private String driverVehicle;

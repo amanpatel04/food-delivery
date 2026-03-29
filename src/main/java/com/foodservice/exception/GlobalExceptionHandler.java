@@ -8,6 +8,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -56,8 +58,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DriverNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleDriverNotFound(DriverNotFoundException ex) {
         return new ResponseEntity<>(
-            new ErrorResponseDTO(404, ex.getMessage()),
-            HttpStatus.NOT_FOUND
+        		new ErrorResponseDTO(LocalDateTime.now(),"Driver not found",
+        			    HttpStatus.NOT_FOUND,"DriverNotFoundException"
+        			)
         );
     }
 }

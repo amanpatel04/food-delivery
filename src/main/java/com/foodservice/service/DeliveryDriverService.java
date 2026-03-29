@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface DeliveryDriverService {
 
-	DeliveryDriverResponseDTO getDriverById(Long id);
+	DeliveryDriverResponseDTO getDriverById(Integer driverId);
 	List<DeliveryDriverResponseDTO> getAllDrivers();
 //    List<DeliveryDriver> getDriversWithOrders();
-    List<DeliveryDriverResponseDTO> getDriverDeliveries(Long driverId);
+    List<DeliveryDriverResponseDTO> getDriverDeliveries(Integer driverId);
     
 }

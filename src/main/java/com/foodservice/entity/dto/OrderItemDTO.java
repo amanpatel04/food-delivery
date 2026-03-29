@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemDTO {
-    private Order order;
-    private MenuItem menuItem;
+    private OrderDTO orderDTO;
+    private MenuItemResponseDTO menuItemResponseDTO;
     private Integer quantity;
 }

@@ -1,6 +1,7 @@
 package com.foodservice.repository;
 
 import com.foodservice.entity.Order;
+import com.foodservice.entity.dto.ItemWithQuantity;
 import com.foodservice.entity.dto.OrderItemDetailDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,22 +36,15 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query("""
     SELECT
-        new com.foodservice.entity.dto.OrderItemDetailDTO(
-            o.orderDate,
-            o.orderStatus,
+        new com.foodservice.entity.dto.ItemWithQuantity(
             io.quantity,
             mi.itemName,
             mi.itemDescription,
-            mi.itemPrice,
-            r.restaurantName,
-            r.restaurantAddress,
-            r.restaurantPhone
+            mi.itemPrice
         )
     FROM OrderItem io
-    JOIN io.order o
     JOIN io.menuItem mi
-    JOIN mi.restaurant r
-    WHERE o.orderId = :orderId
+    WHERE io.order.orderId = :orderId
 """)
-    List<OrderItemDetailDTO> getOrderDetailsByOrderId(@Param("orderId") Integer orderId);
+    List<ItemWithQuantity> getOrderItemWithQuantityById(@Param("orderId") Integer orderId);
 }

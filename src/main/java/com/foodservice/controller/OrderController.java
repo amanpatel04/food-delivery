@@ -1,11 +1,13 @@
 package com.foodservice.controller;
 
-import com.foodservice.entity.Order;
 import com.foodservice.entity.dto.OrderCustomerDTO;
-import com.foodservice.entity.dto.OrderDTO;
+import com.foodservice.entity.dto.OrderWithItemDTO;
 import com.foodservice.entity.dto.ResponseDTO;
+
 import com.foodservice.service.OrderService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +32,10 @@ public class OrderController {
 
     @GetMapping("/detail/{orderId}")
     public ResponseEntity<ResponseDTO> getOrderDetailsById(@PathVariable Integer orderId) {
-        OrderDTO orderDTO = orderService.getOrderDetailsById(orderId);
+        OrderWithItemDTO orderWithItemDTO = orderService.getOrderDetailsById(orderId);
 
         return ResponseEntity
                 .status(200)
-                .body(new ResponseDTO(200, "order detail having id: " + orderId, orderDTO));
+                .body(new ResponseDTO(200, "order detail having id: " + orderId, orderWithItemDTO));
     }
 }

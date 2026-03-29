@@ -1,19 +1,20 @@
 package com.foodservice.entity;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+=======
+import lombok.*;
 
 @Entity
 @Table(name = "DeliveryDrivers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class DeliveryDriver {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driver_id")
@@ -22,10 +23,6 @@ public class DeliveryDriver {
     @Column(name = "driver_name")
     private String driverName;
 
-    @Column(name = "driver_phone", length = 20)
-    private String driverPhone;
-
     @Column(name = "driver_vehicle")
     private String driverVehicle;
-
 }

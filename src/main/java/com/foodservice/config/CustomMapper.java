@@ -1,6 +1,8 @@
 package com.foodservice.config;
 
 import java.math.BigDecimal;
+import com.foodservice.entity.DeliveryDriver;
+import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 
 import com.foodservice.entity.Coupon;
 import com.foodservice.entity.Customer;
@@ -126,4 +128,14 @@ public class CustomMapper {
         return address;
     }
     
+    public static DeliveryDriverResponseDTO deliveryDriverToDTO(DeliveryDriver driver) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+
+        dto.setDriverId(driver.getDriverId());
+        dto.setDriverName(driver.getDriverName());
+        dto.setDriverPhone(driver.getDriverPhone());
+        dto.setDriverVehicle(driver.getDriverVehicle());
+
+        return dto;
+    }
 }

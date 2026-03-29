@@ -88,7 +88,7 @@ class OrderControllerTest {
         mockMvc.perform(get("/api/v1/orders/customer/{customerId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value(201))
+                .andExpect(jsonPath("$.statusCode").value(200))
                 .andExpect(jsonPath("$.message").value("customer having id: 1 has 1 order"))
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.customer.customerId").value(1))

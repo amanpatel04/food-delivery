@@ -49,6 +49,6 @@ public class RestaurantController {
 
         log.info("Fetched {} ratings for restaurant ID: {}", ratingsList.getNumberOfElements(), restaurantId);
         return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(RestaurantConstants.STATUS_200,RestaurantConstants.MESSAGE_210,ratingsList));
+                    .body(new ApiResponseDTO(RestaurantConstants.STATUS_200,RestaurantConstants.MESSAGE_210,ratingsList));
     }
 }

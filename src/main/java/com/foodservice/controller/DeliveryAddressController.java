@@ -38,24 +38,6 @@ public class DeliveryAddressController {
                 ));
     }
 
-    @GetMapping("/customers/{customerId}/addresses/count")
-    public ResponseEntity<ApiResponseDTO> getAddressCount(@PathVariable Integer customerId) {
-
-        log.info("Received request to fetch address count for customer. customerId={}", customerId);
-
-        Integer addressCount = deliveryAddressService.getAddressCount(customerId);
-
-        log.debug("Successfully fetched address count. customerId={}, addressCount={}", customerId, addressCount);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ApiResponseDTO(
-                        DeliveryAddressConstant.STATUS_200,
-                        DeliveryAddressConstant.MESSAGE_ADDRESS_COUNT_FETCHED,
-                        addressCount
-                ));
-    }
-
     @GetMapping("/addresses/city")
     public ResponseEntity<ApiResponseDTO> getAddressesByCity(@RequestParam String city) {
 
@@ -71,24 +53,6 @@ public class DeliveryAddressController {
                         DeliveryAddressConstant.STATUS_200,
                         DeliveryAddressConstant.MESSAGE_ADDRESSES_FETCHED_BY_CITY,
                         addressesByCity
-                ));
-    }
-
-    @GetMapping("/customers/{customerId}/addresses/default")
-    public ResponseEntity<ApiResponseDTO> getDefaultAddress(@PathVariable Integer customerId) {
-
-        log.info("Received request to fetch default delivery address. customerId={}", customerId);
-
-        DeliveryAddressDTO defaultAddress = deliveryAddressService.getDefaultAddress(customerId);
-
-        log.debug("Successfully fetched default delivery address. customerId={}, addressData={}", customerId, defaultAddress);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ApiResponseDTO(
-                        DeliveryAddressConstant.STATUS_200,
-                        DeliveryAddressConstant.MESSAGE_DEFAULT_ADDRESS_FETCHED,
-                        defaultAddress
                 ));
     }
 }

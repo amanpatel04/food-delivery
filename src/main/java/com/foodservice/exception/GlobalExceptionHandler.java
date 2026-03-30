@@ -37,28 +37,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
 
         String message = HttpStatus.NOT_FOUND.toString()+", "+ex.getMessage();
-      
-      
-      log.error(
-                "ResourceNotFoundException occurred while processing request. path={}, errorMessage={}, exceptionClass={}",
-                webRequest.getDescription(false),
-                ex.getMessage(),
-                ex.getClass().getSimpleName(),
-                ex
-        );
-
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-                LocalDateTime.now(),
-                webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND,
-                ex.getMessage()
-        );
-
-        log.debug(
-                "Returning error response for ResourceNotFoundException. status={}, responseBody={}",
-                HttpStatus.NOT_FOUND,
-                errorResponse
-        );
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

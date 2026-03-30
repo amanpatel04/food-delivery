@@ -38,7 +38,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}/ratings")
-    public ResponseEntity<ResponseDTO> fetchRestaurantRatings(
+    public ResponseEntity<ApiResponseDTO> fetchRestaurantRatings(
             @PathVariable("id") Integer restaurantId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size){

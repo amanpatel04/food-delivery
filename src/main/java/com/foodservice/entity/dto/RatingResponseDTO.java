@@ -13,7 +13,7 @@ public class RatingResponseDTO {
     private String review;
 
     private String customerName;
+    private String customerPhone;
 
-    private String restaurantName;
     private LocalDateTime orderDate;
 }

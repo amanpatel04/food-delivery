@@ -1,6 +1,6 @@
 package com.foodservice.controller;
 
-import com.foodservice.entity.dto.ResponseDTO;
+import com.foodservice.entity.dto.ApiResponseDTO;
 import com.foodservice.service.CustomerService;
 import com.foodservice.constants.CustomerConstant;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ public class CustomerController {
     private final CustomerService service;
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<ResponseDTO> getCustomerById(@PathVariable Integer customerId) {
+    public ResponseEntity<ApiResponseDTO> getCustomerById(@PathVariable Integer customerId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(
+                .body(new ApiResponseDTO(
                         CustomerConstant.STATUS_200,
                         CustomerConstant.MESSAGE_CUSTOMER_FETCHED,
                         service.getCustomerById(customerId)
@@ -27,10 +27,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAllCustomers() {
+    public ResponseEntity<ApiResponseDTO> getAllCustomers() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(
+                .body(new ApiResponseDTO(
                         CustomerConstant.STATUS_200,
                         CustomerConstant.MESSAGE_CUSTOMERS_FETCHED,
                         service.getAllCustomers()
@@ -38,10 +38,10 @@ public class CustomerController {
     }
 
     @GetMapping("/city")
-    public ResponseEntity<ResponseDTO> getCustomersByCity(@RequestParam String city) {
+    public ResponseEntity<ApiResponseDTO> getCustomersByCity(@RequestParam String city) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(
+                .body(new ApiResponseDTO(
                         CustomerConstant.STATUS_200,
                         CustomerConstant.MESSAGE_CUSTOMERS_FETCHED_BY_CITY,
                         service.getCustomersByCity(city)
@@ -49,10 +49,10 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/address-count")
-    public ResponseEntity<ResponseDTO> getAddressCount(@PathVariable Integer customerId) {
+    public ResponseEntity<ApiResponseDTO> getAddressCount(@PathVariable Integer customerId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(
+                .body(new ApiResponseDTO(
                         CustomerConstant.STATUS_200,
                         CustomerConstant.MESSAGE_ADDRESS_COUNT_FETCHED,
                         service.getAddressCount(customerId)
@@ -60,10 +60,10 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/analytics")
-    public ResponseEntity<ResponseDTO> getCustomerAnalytics(@PathVariable Integer customerId) {
+    public ResponseEntity<ApiResponseDTO> getCustomerAnalytics(@PathVariable Integer customerId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDTO(
+                .body(new ApiResponseDTO(
                         CustomerConstant.STATUS_200,
                         CustomerConstant.MESSAGE_CUSTOMER_ANALYTICS_FETCHED,
                         service.getCustomerAnalytics(customerId)

@@ -1,55 +1,41 @@
 package com.foodservice.exception;
-import com.foodservice.entity.dto.ErrorResponseDTO;
+import com.foodservice.entity.dto.ApiResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(OrderInvalidRequestException.class)
-    public ResponseEntity<ErrorResponseDTO> handleOrderInvalidRequestException(OrderInvalidRequestException orderInvalidRequestException, WebRequest webRequest) {
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-                LocalDateTime.now(),
-                webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND,
-                orderInvalidRequestException.getMessage()
-        );
+    public ResponseEntity<ApiResponseDTO> handleOrderInvalidRequestException(OrderInvalidRequestException orderInvalidRequestException) {
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        String message = HttpStatus.NOT_FOUND.toString()+", "+orderInvalidRequestException.getMessage();
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponseDTO(HttpStatus.NOT_FOUND.value(), message, null));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponseDTO> handleTypeMismatch (MethodArgumentTypeMismatchException methodArgumentTypeMismatchException, WebRequest webRequest) {
+    public ResponseEntity<ApiResponseDTO> handleTypeMismatch (MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
 
-        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
-                LocalDateTime.now(),
-                webRequest.getDescription(false),
-                HttpStatus.BAD_REQUEST,
-                methodArgumentTypeMismatchException.getMessage()
-        );
+        String message = HttpStatus.NOT_FOUND.toString()+", "+methodArgumentTypeMismatchException.getMessage();
 
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO(HttpStatus.BAD_REQUEST.value(), message, null));
 
     }
 
-    // Resource Not Found (404)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(
-            ResourceNotFoundException ex,
-            WebRequest webRequest) {
+    public ResponseEntity<ApiResponseDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
 
-        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-                LocalDateTime.now(),
-                webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND,
-                ex.getMessage()
-        );
+        String message = HttpStatus.NOT_FOUND.toString()+", "+ex.getMessage();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponseDTO(HttpStatus.NOT_FOUND.value(), message, null));
     }
 }

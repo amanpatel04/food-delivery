@@ -1,9 +1,11 @@
 package com.foodservice.service.impl;
 
 import com.foodservice.entity.DeliveryDriver;
+import com.foodservice.entity.Order;
 import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 import com.foodservice.exception.DriverNotFoundException;
 import com.foodservice.repository.DeliveryDriverRepository;
+import com.foodservice.repository.OrderRepository;
 import com.foodservice.service.DeliveryDriverService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,8 +18,14 @@ import java.util.List;
 public class DeliveryDriverServiceImpl implements DeliveryDriverService {
 
     private final DeliveryDriverRepository deliveryDriverRepository;
+    private final OrderRepository orderRepository;
+    
+    public DeliveryDriverServiceImpl(DeliveryDriverRepository deliveryDriverRepository, OrderRepository orderRepository) {
+		this.deliveryDriverRepository = deliveryDriverRepository;
+		this.orderRepository = orderRepository;
+	}
 
-    // ✅ Get Driver by ID
+    // Get Driver by ID
     @Override
     public DeliveryDriverResponseDTO getDriverById(Integer driverId) {
 
@@ -27,7 +35,7 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
         return mapToDTO(driver);
     }
 
-    // ✅ Get All Drivers
+    // Get All Drivers
     @Override
     public List<DeliveryDriverResponseDTO> getAllDrivers() {
 
@@ -37,11 +45,11 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
                 .toList();
     }
 
-    // ❌ TEMPORARILY DISABLE (to avoid breaking project)
-    @Override
-    public List<DeliveryDriverResponseDTO> getDriverDeliveries(Integer driverId) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+    // TEMPORARILY DISABLE (to avoid breaking project)
+//    @Override
+//    public List<DeliveryDriverResponseDTO> getDriverDeliveries(Integer driverId) {
+//        throw new UnsupportedOperationException("Not implemented yet");
+//    }
 
     // Manual Mapper (SAFE)
     private DeliveryDriverResponseDTO mapToDTO(DeliveryDriver driver) {
@@ -52,4 +60,27 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
         dto.setDriverVehicle(driver.getDriverVehicle());
         return dto;
     }
+    
+    @Override
+    public List<DeliveryDriverResponseDTO> getDriverDeliveries(Integer driverId) {
+
+        List<Order> orders = orderRepository.findByDeliveryDriver_DriverId(driverId);
+
+        return orders.stream().map(order -> {
+
+            DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+
+            dto.setDriverId(order.getDeliveryDriver().getDriverId());
+            dto.setDriverName(order.getDeliveryDriver().getDriverName());
+
+            dto.setOrderId(order.getOrderId());
+            dto.setCustomerName(order.getCustomer().getCustomerName());
+            dto.setResturentName(order.getRestaurant().getRestaurantName());
+            dto.setOrderStatus(order.getOrderStatus());
+
+            return dto;
+
+        }).toList();
+    }
+    
 }

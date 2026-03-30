@@ -20,10 +20,10 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
     private final DeliveryDriverRepository deliveryDriverRepository;
     private final OrderRepository orderRepository;
     
-    public DeliveryDriverServiceImpl(DeliveryDriverRepository deliveryDriverRepository, OrderRepository orderRepository) {
-		this.deliveryDriverRepository = deliveryDriverRepository;
-		this.orderRepository = orderRepository;
-	}
+//    public DeliveryDriverServiceImpl(DeliveryDriverRepository deliveryDriverRepository, OrderRepository orderRepository) {
+//		this.deliveryDriverRepository = deliveryDriverRepository;
+//		this.orderRepository = orderRepository;
+//	}
 
     // Get Driver by ID
     @Override

@@ -18,9 +18,9 @@ public class DeliveryDriverController {
 
     private final DeliveryDriverService deliveryDriverservice;
     
-    public DeliveryDriverController(DeliveryDriverService deliveryDriverservice) {
-        this.deliveryDriverservice = deliveryDriverservice;
-    }
+//    public DeliveryDriverController(DeliveryDriverService deliveryDriverservice) {
+//        this.deliveryDriverservice = deliveryDriverservice;
+//    }
 
     // ---------------- Get Driver by ID --------------
     @GetMapping(value = "/{driverId}", produces = "application/json")

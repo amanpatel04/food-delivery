@@ -83,4 +83,17 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponseDTO(HttpStatus.BAD_REQUEST.value(), message, null));
     }
 
+
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<ApiResponseDTO> handleConstraintViolationException(jakarta.validation.ConstraintViolationException ex) {
+
+        String message = HttpStatus.BAD_REQUEST.toString() + ", " + ex.getMessage();
+
+        log.warn("Validation failed: {}", message);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO(HttpStatus.BAD_REQUEST.value(), message, null));
+    }
+
 }

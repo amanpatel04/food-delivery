@@ -1,0 +1,12 @@
+package com.foodservice.frontend.entity.dto;
+
+import lombok.Data;
+
+@Data
+public class CustomerDTO {
+    private String customerName;
+    private String customerEmail;
+    private String customerPhone;
+}
+
+

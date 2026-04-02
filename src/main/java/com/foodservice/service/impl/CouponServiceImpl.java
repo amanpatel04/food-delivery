@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service;
 
 import com.foodservice.entity.dto.OrderCouponDTO;
 import com.foodservice.exception.ResourceNotFoundException;
-import com.foodservice.repository.CoupoonRepository;
+import com.foodservice.repository.CouponRepository;
 import com.foodservice.service.CouponService;
 
 @Service
 public class CouponServiceImpl implements CouponService {
 
-    private final CoupoonRepository couponRepository;
+    private final CouponRepository couponRepository;
 
-    public CouponServiceImpl(CoupoonRepository couponRepository) {
+    public CouponServiceImpl(CouponRepository couponRepository) {
         this.couponRepository = couponRepository;
     }
 

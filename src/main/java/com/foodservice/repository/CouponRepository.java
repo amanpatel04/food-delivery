@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.foodservice.entity.Coupon;
 import com.foodservice.entity.dto.OrderCouponDTO;
 
-public interface CoupoonRepository extends JpaRepository<Coupon, Integer> {
+public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	Coupon findByCode(String code); //basic crud
 

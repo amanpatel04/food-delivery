@@ -71,5 +71,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     WHERE io.order.orderId = :orderId
 """)
     List<ItemWithQuantity> getOrderItemWithQuantityById(@Param("orderId") Integer orderId);
+           
+    List<Order> findByDeliveryDriverDriverId(Integer driverId);
+
 
 }

@@ -5,18 +5,18 @@ import com.foodservice.frontend.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/home")
+@Controller
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class HomeController {
 
     @GetMapping
-    public String home() {
-        return "<h2> Welcome to spring boot frotend application. </h2>";
+    public String home(@CookieValue(name = "token", required = false) String token) {
+        if (token == null) {
+            return "redirect:/auth/login";
+        }
+        return "index";
     }
 }

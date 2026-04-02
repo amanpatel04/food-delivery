@@ -2,6 +2,8 @@ package com.foodservice.frontend.service;
 
 import com.foodservice.frontend.entity.dto.OrderCustomerDTO;
 
+import java.util.Map;
+
 public interface OrderService {
-    OrderCustomerDTO getOrdersByCustomerId(Integer customerId, Integer page, Integer size, String token);
+    OrderCustomerDTO getOrdersByCustomerId(Integer customerId, Map<String, String> params, String token);
 }

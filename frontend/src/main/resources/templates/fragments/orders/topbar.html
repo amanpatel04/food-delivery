@@ -6,12 +6,14 @@
         <div class="topbar-stats" id="topbar-stats">
             <span class="topbar-stat">
                 <span class="topbar-stat-dot" style="background:hsl(111,35%,55%)"></span>
-                <span th:text="${#lists.size(orderCustomerDTO.orderDetails.content.?[orderStatus == 'Delivered']) + ' Delivered'}">0 Delivered</span>
+                <span th:with="deliveredCount=${orderCustomerDTO != null and orderCustomerDTO.orderDetails != null and orderCustomerDTO.orderDetails.content != null ? #lists.size(orderCustomerDTO.orderDetails.content.?[orderStatus == 'Delivered']) : 0}" 
+                      th:text="${deliveredCount} + ' Delivered'">0 Delivered</span>
             </span>
             <span class="topbar-stat-sep">·</span>
             <span class="topbar-stat">
                 <span class="topbar-stat-dot" style="background:hsl(40,70%,55%)"></span>
-                <span th:text="${#lists.size(orderCustomerDTO.orderDetails.content.?[orderStatus == 'Pending']) + ' In Progress'}">0 Pending</span>
+                <span th:with="pendingCount=${orderCustomerDTO != null and orderCustomerDTO.orderDetails != null and orderCustomerDTO.orderDetails.content != null ? #lists.size(orderCustomerDTO.orderDetails.content.?[orderStatus == 'Pending']) : 0}" 
+                      th:text="${pendingCount} + ' In Progress'">0 Pending</span>
             </span>
         </div>
     </div>
@@ -19,12 +21,6 @@
 
         <!-- Inline lookup bar — expands on button click -->
         <div class="lookup-bar" id="lookup-bar">
-            <!-- ID / Name toggle -->
-            <div class="lookup-segment">
-                <button class="lookup-seg-btn active" id="seg-id" onclick="switchLookupTab('id')">ID</button>
-                <button class="lookup-seg-btn" id="seg-name" onclick="switchLookupTab('name')">Name</button>
-            </div>
-
             <!-- Input -->
             <div class="lookup-input-wrap">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

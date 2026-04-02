@@ -16,12 +16,12 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     private final WebClient webClient;
     @Override
-    public OrderCustomerDTO getOrdersByCustomerId(Integer customerId, Integer page, Integer size, String token) {
+    public OrderCustomerDTO getOrdersByCustomerId(Integer customerId, Map<String, String> params, String token) {
 
         ApiGetRequest<OrderCustomerDTO> apiGetRequest = new ApiGetRequest<>(webClient);
-        
+
         return apiGetRequest.get("/orders/customer/" + customerId, 
-                Map.of("page", page.toString(), "size", size.toString()), 
+                params,
                 token, 
                 new ParameterizedTypeReference<ApiResponseDTO<OrderCustomerDTO>>() {});
     }

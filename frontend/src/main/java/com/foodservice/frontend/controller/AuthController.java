@@ -32,7 +32,7 @@ public class AuthController {
             response.addHeader(HttpHeaders.SET_COOKIE, token);
         }
 
-        return "redirect:/orders/customer/1";
+        return "redirect:/";
     }
 
     @GetMapping("/logout")

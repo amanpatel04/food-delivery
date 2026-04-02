@@ -1,6 +1,0 @@
-server:
-  port: port
-
-spring:
-  application:
-    name: "application name keep frontend for now"

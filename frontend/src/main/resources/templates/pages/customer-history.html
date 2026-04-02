@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Order History</title>
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/customer-history.css}">
 </head>
@@ -114,9 +114,9 @@
                                 <div class="price-tag" th:text="'$' + ${orderItem.itemPrice * orderItem.quantity}">$0.00</div>
                             </td>
                             <td class="status-cell">
-                                <span class="status-badge" 
-                                      th:classappend="${orderItem.orderStatus == 'COMPLETED' ? 'status-completed' : 
-                                                     orderItem.orderStatus == 'PENDING' ? 'status-pending' : 
+                                <span class="status-badge"
+                                      th:classappend="${orderItem.orderStatus == 'COMPLETED' ? 'status-completed' :
+                                                     orderItem.orderStatus == 'PENDING' ? 'status-pending' :
                                                      'status-cancelled'}"
                                       th:text="${orderItem.orderStatus}">
                                     Status
@@ -138,7 +138,7 @@
                     <div class="summary-value" th:text="${orderCustomerDTO.orderItems?.size() ?: 0}">0</div>
                     <div class="summary-label">Total Orders</div>
                 </div>
-                
+
                 <div class="summary-card spent slide-in-left">
                     <div class="summary-icon">
                         <i class="fas fa-dollar-sign"></i>
@@ -146,7 +146,7 @@
                     <div class="summary-value" th:text="'$' + (${#aggregates.sum(orderCustomerDTO.orderItems.![itemPrice * quantity]) ?: 0})">$0.00</div>
                     <div class="summary-label">Total Spent</div>
                 </div>
-                
+
                 <div class="summary-card items slide-in-right">
                     <div class="summary-icon">
                         <i class="fas fa-box"></i>
@@ -154,7 +154,7 @@
                     <div class="summary-value" th:text="${#aggregates.sum(orderCustomerDTO.orderItems.![quantity]) ?: 0}">0</div>
                     <div class="summary-label">Total Items</div>
                 </div>
-                
+
                 <div class="summary-card completed slide-in-right">
                     <div class="summary-icon">
                         <i class="fas fa-check-circle"></i>

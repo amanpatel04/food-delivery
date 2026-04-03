@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message - Food Service</title>
+    <link rel="stylesheet" href="/css/orders/orders.css">
+    <link rel="stylesheet" href="/css/orders/order-customer-home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/js/orders/orders.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/orders/sidebar :: sidebar}"></div>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Top Bar -->
+            <div th:replace="~{fragments/orders/topbar :: topbar}"></div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Message Container -->
+                <div class="message-container">
+                    <div class="message-card">
+                        <div class="message-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="message-content">
+                            <h1 class="message-title" th:text="${title != null ? title : 'Welcome'}">Welcome</h1>
+                            <p class="message-text" th:text="${message != null ? message : 'Your message will appear here.'}">
+                                Your message will appear here. This is a beautifully centered message area with excellent typography.
+                            </p>
+                            <div class="message-meta" th:if="${timestamp != null}">
+                                <span class="message-time" th:text="${timestamp}">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

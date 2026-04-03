@@ -6,6 +6,9 @@ import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// Global exception handler
+// Handles all exceptions and returns error page or login page
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -50,7 +53,7 @@ public class GlobalExceptionHandler {
         model.addAttribute("status", "error");
         model.addAttribute("message", invalidCredentialsException.getMessage());
 
-        return "pages/login";
+        return "pages/auth/login";
     }
 
 }

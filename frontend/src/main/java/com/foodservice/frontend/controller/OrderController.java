@@ -20,13 +20,15 @@ public class OrderController {
 
     private final OrderService orderService;
 
+
+    // Controller for getting order history of customer by customerId
     @GetMapping("/customer")
     public String getCustomerHome(Model model, @CookieValue(name = "token", required = true) String token) {
 
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "Click on the top right button to view your orders details");
 
-        return "pages/order-customer-home";
+        return "pages/order/order-customer-home";
     }
 
     @GetMapping("/customer/{customerId}")
@@ -39,9 +41,10 @@ public class OrderController {
 
         model.addAttribute("orderCustomerDTO", orderCustomerDTO);
 
-        return "pages/orders";
+        return "pages/order/orders";
     }
 
+    // Controller for getting order details by orderId
     @GetMapping("/detail/{orderId}")
     public String getOrderDetailsById(@PathVariable("orderId") Integer orderId,
                                       @RequestParam Map<String, String> params,
@@ -56,17 +59,18 @@ public class OrderController {
         
         model.addAttribute("orderWithItemDTO", orderWithItemDTO);
 
-        return "pages/order-details";
+        return "pages/order/order-details";
     }
 
     @GetMapping("/detail")
     public String getSearchPage(Model model, @CookieValue(name = "token", required = true) String token) {
 
         model.addAttribute("title", "Search");
-        return "pages/order-search";
+        return "pages/order/order-search";
 
     }
 
+    // Controller for getting restaurant revenue
     @GetMapping("/revenue/restaurant")
     public String getRestaurantRevenuePage(@CookieValue(name = "token", required = true) String token) {
 

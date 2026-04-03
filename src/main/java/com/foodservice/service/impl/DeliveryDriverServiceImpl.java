@@ -39,7 +39,7 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
     @Override
     public List<DeliveryDriverResponseDTO> getOrderByDriver(Integer driverId) {
         log.info("Fetching orders for driver ID: {}", driverId);
-        List<Order> orders = orderRepository.findByDeliveryDriverId(driverId);
+        List<Order> orders = orderRepository.findByDeliveryDriverDriverId(driverId);
         log.info("Total orders found: {}", orders.size());
         return orders.stream()
                 .map(mapper::toOrderDTO)
@@ -49,7 +49,7 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
     @Override
     public List<DeliveryDriverResponseDTO> getRestaurantsByDriver(Integer driverId) {
         log.info("Fetching restaurants for driver ID: {}", driverId);
-        List<Order> orders = orderRepository.findByDeliveryDriverId(driverId);
+        List<Order> orders = orderRepository.findByDeliveryDriverDriverId(driverId);
         return orders.stream()
                 .map(Order::getRestaurant)
                 .distinct()
@@ -80,7 +80,7 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
     @Override
     public List<DeliveryDriverResponseDTO> getCustomerOrderByDriver(Integer driverId, Integer customerId) {
         log.info("Fetching customers for driver ID: {}", driverId);
-        List<Order> orders = orderRepository.findByDeliveryDriverIdAndCustomerId(driverId, customerId);
+        List<Order> orders = orderRepository.findByDeliveryDriverDriverIdAndCustomerCustomerId(driverId, customerId);
         return orders.stream()
                 .map(mapper::toOrderDTO)
                 .toList();
@@ -98,7 +98,7 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
     @Override
     public List<DeliveryDriverResponseDTO> getcustomerByDriver(Integer driverId) {
         log.info("Fetching customers for driver ID: {}", driverId);
-        List<Order> orders = orderRepository.findByDeliveryDriverId(driverId);
+        List<Order> orders = orderRepository.findByDeliveryDriverDriverId(driverId);
         return orders.stream()
                 .map(Order::getCustomer)
                 .distinct()

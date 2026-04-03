@@ -73,27 +73,29 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     WHERE io.order.orderId = :orderId
 """)
     List<ItemWithQuantity> getOrderItemWithQuantityById(@Param("orderId") Integer orderId);
-    List<Order> findByDeliveryDriverId(Integer driverId);
+    List<Order> findByDeliveryDriverDriverId(Integer driverId);
 
-	List<Order> findByDeliveryDriverIdAndCustomerId(Integer driverId, Integer customerId);
+	List<Order> findByDeliveryDriverDriverIdAndCustomerCustomerId(Integer driverId, Integer customerId);
 
-	@Query("""
-		    SELECT new com.foodservice.entity.dto.RestaurantRevenueDTO(
-		        COUNT(o.orderId),
-		        SUM(o.totalAmount),
-		        r.restaurantName
-		    )
-		    FROM Order o
-		    JOIN o.restaurant r
-		    WHERE r.restaurantId = :restaurantId
-		    AND (:fromDate IS NULL OR o.orderDate >= :fromDate)
-		    AND (:toDate IS NULL OR o.orderDate <= :toDate)
-		    GROUP BY r.restaurantId, r.restaurantName
-		""")
-		RestaurantRevenueDTO getRevenueByRestaurantId(
-		    @Param("restaurantId") Integer restaurantId,
-		    @Param("fromDate") LocalDateTime fromDate,
-		    @Param("toDate") LocalDateTime toDate
-		);
+    @Query("""
+    SELECT new com.foodservice.entity.dto.RestaurantRevenueDTO(
+        r.restaurantId,
+        r.restaurantName,
+        COUNT(DISTINCT o.orderId),
+        COALESCE(SUM(oi.quantity * mi.itemPrice), 0),
+        COALESCE(SUM(oi.quantity * mi.itemPrice) / NULLIF(COUNT(DISTINCT o.orderId), 0), 0)
+    )
+    FROM Order o
+    JOIN o.restaurant r
+    JOIN OrderItem oi ON oi.order.orderId = o.orderId
+    JOIN oi.menuItem mi
+    WHERE r.restaurantId = :restaurantId
+    AND (:fromDate IS NULL OR o.orderDate >= :fromDate)
+    AND (:toDate   IS NULL OR o.orderDate <= :toDate)
+""")
+    RestaurantRevenueDTO getRevenueByRestaurantId(
+            @Param("restaurantId") Integer restaurantId,
+            @Param("fromDate") LocalDateTime fromDate,
+            @Param("toDate") LocalDateTime toDate);
 
 }

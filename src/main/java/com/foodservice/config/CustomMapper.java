@@ -2,11 +2,13 @@ package com.foodservice.config;
 
 import com.foodservice.entity.dto.*;
 import com.foodservice.entity.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 import java.util.List;
 
+@Component
 public class CustomMapper {
 
     public static CustomerDTO customerToCustomerDTO(Customer customer) {
@@ -209,8 +211,7 @@ public class CustomMapper {
         dto.setResturentName(restaurant.getRestaurantName());
         return dto;
     }*/
-    
- // Add these methods to CustomMapper class
+
     public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
         dto.setDriverName(driver.getDriverName());

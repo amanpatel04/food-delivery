@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final DeliveryDriverService deliveryDriverService;
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<ApiResponseDTO> getOrdersByCustomerId(@PathVariable Integer customerId,

@@ -40,6 +40,6 @@ public class OrderController {
 
     @GetMapping("/detail/{orderId}")
     public String getOrderDetailsById() {
-
+        return "pages/order-detail";
     }
 }

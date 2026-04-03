@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Ratings - Food Service</title>
+    <link rel="stylesheet" href="/css/orders/orders.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/orders/sidebar :: sidebar}"></div>
+
+    <!-- Main -->
+    <main class="main">
+
+        <!-- Top Bar -->
+        <header class="order-details-topbar">
+            <div class="topbar-left">
+                <h1 class="page-title">Restaurant Ratings</h1>
+                <div class="order-breadcrumb">
+                    <a href="/" class="breadcrumb-link">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <a href="/restaurants/Restaurant" class="breadcrumb-link">Restaurants</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Ratings</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="order-id-input">
+                    <input type="number"
+                           id="restaurantIdInput"
+                           class="order-id-field"
+                           placeholder="Enter restaurant ID"
+                           min="1"
+                           onkeypress="if(event.key==='Enter') navigateToRatings()">
+                    <button class="btn btn-primary" onclick="navigateToRatings()">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        View Ratings
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content fade-up">
+
+            <!-- Stats bar -->
+            <div class="ratings-stats-row" th:if="${restaurantRatingsDTO != null and restaurantRatingsDTO.ratings != null}">
+                <div class="stat-chip">
+                    <span class="stat-chip-dot" style="background:hsl(111,35%,55%)"></span>
+                    <span th:text="${restaurantRatingsDTO.ratings.page.totalElements} + ' total ratings'">0 total ratings</span>
+                </div>
+                <span class="topbar-stat-sep">·</span>
+                <div class="stat-chip">
+                    <span class="stat-chip-dot" style="background:hsl(40,70%,55%)"></span>
+                    <span th:text="'Page ' + (${restaurantRatingsDTO.ratings.page.number} + 1) + ' of ' + ${restaurantRatingsDTO.ratings.page.totalPages}">Page 1 of 1</span>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filters-bar" th:if="${restaurantRatingsDTO != null}">
+
+                <!-- Keyword search -->
+                <div class="search-wrap">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input class="search-input"
+                           id="keyword-input"
+                           type="search"
+                           placeholder="Search reviews…"
+                           autocomplete="off"
+                           th:value="${param.keyword}"
+                           onkeydown="if(event.key==='Enter') applyFilters()"/>
+                </div>
+
+                <div class="divider-v"></div>
+
+                <!-- Customer name search -->
+                <div class="search-wrap">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <input class="search-input"
+                           id="customer-name-input"
+                           type="search"
+                           placeholder="Customer name…"
+                           autocomplete="off"
+                           th:value="${param.customerName}"
+                           onkeydown="if(event.key==='Enter') applyFilters()"/>
+                </div>
+
+                <div class="divider-v"></div>
+
+                <!-- Exact rating filter -->
+                <select class="filter-select" id="rating-filter">
+                    <option value="">Any Rating</option>
+                    <option value="5" th:selected="${param.rating == '5'}">★★★★★ 5</option>
+                    <option value="4" th:selected="${param.rating == '4'}">★★★★☆ 4</option>
+                    <option value="3" th:selected="${param.rating == '3'}">★★★☆☆ 3</option>
+                    <option value="2" th:selected="${param.rating == '2'}">★★☆☆☆ 2</option>
+                    <option value="1" th:selected="${param.rating == '1'}">★☆☆☆☆ 1</option>
+                </select>
+
+                <!-- Min rating filter -->
+                <select class="filter-select" id="min-rating-filter">
+                    <option value="">Min Rating</option>
+                    <option value="4" th:selected="${param.minRating == '4'}">4+ Stars</option>
+                    <option value="3" th:selected="${param.minRating == '3'}">3+ Stars</option>
+                    <option value="2" th:selected="${param.minRating == '2'}">2+ Stars</option>
+                </select>
+
+                <div class="divider-v"></div>
+
+                <!-- From date -->
+                <input type="date"
+                       class="filter-select"
+                       id="from-date-filter"
+                       th:value="${param.fromDate}"
+                       placeholder="From date"
+                       style="width:140px"/>
+
+                <!-- To date -->
+                <input type="date"
+                       class="filter-select"
+                       id="to-date-filter"
+                       th:value="${param.toDate}"
+                       placeholder="To date"
+                       style="width:140px"/>
+
+                <div class="divider-v"></div>
+
+                <!-- Apply -->
+                <button class="btn btn-primary" onclick="applyFilters()" style="padding:8px 16px; flex-shrink:0;">
+                    Apply
+                </button>
+
+                <!-- Clear -->
+                <button class="btn btn-ghost" onclick="clearFilters()" style="padding:8px 12px; flex-shrink:0;">
+                    Clear
+                </button>
+
+                <!-- Rows per page -->
+                <select class="filter-select" id="rows-select" style="margin-left:auto">
+                    <option value="5"  th:selected="${param.size == '5' or param.size == null}">5 / page</option>
+                    <option value="10" th:selected="${param.size == '10'}">10 / page</option>
+                    <option value="20" th:selected="${param.size == '20'}">20 / page</option>
+                </select>
+            </div>
+
+            <!-- Ratings Table Card -->
+            <div class="table-card" th:if="${restaurantRatingsDTO != null and restaurantRatingsDTO.ratings != null}">
+                <div class="table-header">
+                    <span class="table-header-title">Ratings &amp; Reviews</span>
+                    <span class="table-header-count"
+                          th:text="${#lists.size(restaurantRatingsDTO.ratings.content)} + ' results'">— results</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table id="ratings-table">
+                        <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th>Order Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="r : ${restaurantRatingsDTO.ratings.content}">
+
+                            <!-- Customer -->
+                            <td>
+                                <div class="item-name" th:text="${r.customerName}">Customer Name</div>
+                                <div class="restaurant-phone" th:text="${r.customerPhone}">Phone</div>
+                            </td>
+
+                            <!-- Star rating -->
+                            <td>
+                                <div class="rating-stars-wrap">
+                                    <span class="rating-number" th:text="${r.rating}">5</span>
+                                    <div class="stars">
+                                            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                                  th:class="${i <= r.rating} ? 'star filled' : 'star'">★</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <!-- Review text -->
+                            <td>
+                                <div class="item-desc review-text"
+                                     th:text="${r.review != null and r.review != '' ? r.review : '—'}"
+                                     th:title="${r.review}">Review text here</div>
+                            </td>
+
+                            <!-- Order date -->
+                            <td>
+                                <div class="date-primary"
+                                     th:text="${#temporals.format(r.orderDate, 'dd MMM yyyy')}">01 Jan 2024</div>
+                                <div class="date-secondary"
+                                     th:text="${#temporals.format(r.orderDate, 'HH:mm')}">12:00</div>
+                            </td>
+                        </tr>
+
+                        <!-- Empty state row -->
+                        <tr th:if="${#lists.isEmpty(restaurantRatingsDTO.ratings.content)}">
+                            <td colspan="4">
+                                <div class="empty-state" style="padding:40px 0">
+                                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                        <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                                    </svg>
+                                    <p>No ratings match your filters.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-bar">
+                    <div class="page-info">
+                        Showing <strong th:text="${#lists.size(restaurantRatingsDTO.ratings.content)}">0</strong> results
+                    </div>
+                    <div class="page-controls">
+                        <th:block th:with="
+                            totalPages=${restaurantRatingsDTO.ratings.page.totalPages},
+                            currentPage=${restaurantRatingsDTO.ratings.page.number}">
+
+                            <button class="page-btn"
+                                    th:classappend="${currentPage <= 0} ? 'disabled'"
+                                    th:disabled="${currentPage <= 0}"
+                                    th:onclick="'goRatingsPage(' + (${currentPage} - 1) + ')'">‹</button>
+
+                            <th:block th:if="${totalPages <= 5}">
+                                <button th:each="p : ${#numbers.sequence(0, totalPages - 1)}"
+                                        class="page-btn"
+                                        th:classappend="${p == currentPage} ? 'active'"
+                                        th:onclick="'goRatingsPage(' + ${p} + ')'"
+                                        th:text="${p + 1}"></button>
+                            </th:block>
+
+                            <th:block th:if="${totalPages > 5}">
+                                <button class="page-btn active" th:text="${currentPage + 1}"></button>
+                            </th:block>
+
+                            <button class="page-btn"
+                                    th:classappend="${currentPage >= totalPages - 1} ? 'disabled'"
+                                    th:disabled="${currentPage >= totalPages - 1}"
+                                    th:onclick="'goRatingsPage(' + (${currentPage} + 1) + ')'">›</button>
+
+                            <div class="page-info" th:if="${totalPages > 0}" style="margin-left:1rem">
+                                Page <strong th:text="${currentPage + 1}">1</strong>
+                                of <strong th:text="${totalPages}">1</strong>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty / landing state when no restaurant selected -->
+            <div class="search-instructions-card" th:if="${restaurantRatingsDTO == null}">
+                <div class="instruction-content">
+                    <div class="instruction-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                        </svg>
+                    </div>
+                    <div class="instruction-text">
+                        <h2>View Restaurant Ratings</h2>
+                        <p>Enter a restaurant ID in the search box above to view its ratings and reviews. Use the filters to narrow down by star rating, date range, or review content.</p>
+                        <div class="instruction-tips">
+                            <div class="tip-item">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Filter by exact star rating or minimum rating</span>
+                            </div>
+                            <div class="tip-item">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span>Filter by date range to see recent reviews</span>
+                            </div>
+                            <div class="tip-item">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Search reviews by keyword or customer name</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<style>
+    .ratings-stats-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+    }
+
+    .stat-chip {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .stat-chip-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .topbar-stat-sep {
+        color: var(--color-text-tertiary);
+    }
+
+    /* Star rating */
+    .rating-stars-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .rating-number {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        line-height: 1;
+        min-width: 18px;
+    }
+
+    .stars {
+        display: flex;
+        gap: 2px;
+    }
+
+    .star {
+        font-size: 16px;
+        color: var(--color-border);
+    }
+
+    .star.filled {
+        color: hsl(40, 90%, 50%);
+    }
+
+    /* Review text */
+    .review-text {
+        max-width: 380px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--color-text-secondary);
+        font-size: 13px;
+    }
+
+    /* Search instructions (reuse from order-search style) */
+    .search-instructions-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: 48px;
+        margin-top: 8px;
+        box-shadow: var(--shadow-elevated);
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    .instruction-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 24px;
+    }
+
+    .instruction-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--color-accent-glow);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--color-sage-light);
+    }
+
+    .instruction-icon svg {
+        width: 36px;
+        height: 36px;
+        color: var(--color-sage);
+    }
+
+    .instruction-text h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin-bottom: 10px;
+        letter-spacing: -0.4px;
+    }
+
+    .instruction-text p {
+        font-size: 15px;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        max-width: 560px;
+        margin: 0 auto 20px;
+    }
+
+    .instruction-tips {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 480px;
+    }
+
+    .tip-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        background: var(--color-surface-2);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-lg);
+        text-align: left;
+        transition: all 0.2s ease;
+    }
+
+    .tip-item:hover {
+        border-color: var(--color-sage-light);
+        transform: translateY(-1px);
+    }
+
+    .tip-item svg {
+        width: 18px;
+        height: 18px;
+        color: var(--color-sage);
+        flex-shrink: 0;
+    }
+
+    .tip-item span {
+        font-size: 14px;
+        color: var(--color-text-primary);
+        font-weight: 500;
+    }
+
+    .order-details-topbar {
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border-soft);
+        padding: 20px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .topbar-left { display: flex; flex-direction: column; gap: 8px; }
+    .topbar-right { display: flex; align-items: center; }
+
+    .order-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .breadcrumb-link {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .breadcrumb-link:hover { color: var(--color-sage); }
+    .breadcrumb-separator { color: var(--color-text-tertiary); }
+    .breadcrumb-current { color: var(--color-text-primary); font-weight: 500; }
+
+    .order-id-input { display: flex; align-items: center; gap: 12px; }
+
+    .order-id-field {
+        padding: 10px 14px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        font-size: 14px;
+        font-family: var(--font-body);
+        background: var(--color-surface);
+        color: var(--color-text-primary);
+        width: 200px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    .order-id-field::-webkit-outer-spin-button,
+    .order-id-field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    .order-id-field:focus {
+        outline: none;
+        border-color: var(--color-sage);
+        box-shadow: 0 0 0 3px hsla(111, 35%, 55%, 0.1);
+    }
+
+    .order-id-field::placeholder { color: var(--color-text-tertiary); }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+        .order-details-topbar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 20px;
+        }
+        .topbar-right { width: 100%; }
+        .order-id-input { width: 100%; }
+        .order-id-field { flex: 1; }
+        .review-text { max-width: 200px; }
+    }
+</style>
+
+<script>
+    function getCurrentRestaurantId() {
+        const match = window.location.pathname.match(/\/restaurants\/(\d+)\/ratings/);
+        return match ? match[1] : null;
+    }
+
+    function navigateToRatings() {
+        const input = document.getElementById('restaurantIdInput');
+        const id = input.value.trim();
+        if (!id || id <= 0) {
+            input.style.borderColor = 'hsl(0, 70%, 50%)';
+            input.focus();
+            setTimeout(() => input.style.borderColor = '', 2000);
+            return;
+        }
+        window.location.href = '/restaurants/' + encodeURIComponent(id) + '/ratings';
+    }
+
+    function applyFilters() {
+        const id = getCurrentRestaurantId();
+        if (!id) return;
+
+        const url = new URL(window.location.href);
+        const keyword     = document.getElementById('keyword-input').value.trim();
+        const customerName= document.getElementById('customer-name-input').value.trim();
+        const rating      = document.getElementById('rating-filter').value;
+        const minRating   = document.getElementById('min-rating-filter').value;
+        const fromDate    = document.getElementById('from-date-filter').value;
+        const toDate      = document.getElementById('to-date-filter').value;
+        const size        = document.getElementById('rows-select').value;
+
+        keyword      ? url.searchParams.set('keyword', keyword)         : url.searchParams.delete('keyword');
+        customerName ? url.searchParams.set('customerName', customerName): url.searchParams.delete('customerName');
+        rating       ? url.searchParams.set('rating', rating)           : url.searchParams.delete('rating');
+        minRating    ? url.searchParams.set('minRating', minRating)     : url.searchParams.delete('minRating');
+        fromDate     ? url.searchParams.set('fromDate', fromDate)       : url.searchParams.delete('fromDate');
+        toDate       ? url.searchParams.set('toDate', toDate)           : url.searchParams.delete('toDate');
+
+        url.searchParams.set('size', size);
+        url.searchParams.set('page', 0);
+
+        window.location.href = url.toString();
+    }
+
+    function clearFilters() {
+        const id = getCurrentRestaurantId();
+        if (!id) return;
+        window.location.href = '/restaurants/' + id + '/ratings';
+    }
+
+    function goRatingsPage(pageNumber) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', pageNumber);
+        url.searchParams.set('size', document.getElementById('rows-select')?.value || 5);
+        window.location.href = url.toString();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const id = getCurrentRestaurantId();
+        if (id) {
+            const input = document.getElementById('restaurantIdInput');
+            if (input) input.value = id;
+        }
+
+        const rowsSelect = document.getElementById('rows-select');
+        if (rowsSelect) {
+            rowsSelect.addEventListener('change', () => applyFilters());
+        }
+    });
+</script>
+</body>
+</html>

@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customers
                 .map(CustomMapper::customerToCustomerDTO)
-                .getContent();   // ✅ convert Page → List
+                .getContent();   //  convert Page → List
     }
 
 
@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customers
                 .map(CustomMapper::customerToCustomerDTO)
-                .getContent();   // ✅ convert Page → List
+                .getContent();   //  convert Page → List
     }
 
     @Override

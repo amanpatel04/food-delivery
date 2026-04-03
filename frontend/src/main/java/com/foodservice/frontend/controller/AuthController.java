@@ -25,7 +25,7 @@ public class AuthController {
             return "redirect:/";
         }
 
-        return "pages/login";
+        return "pages/auth/login";
     }
 
     @PostMapping("/login")

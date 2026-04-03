@@ -11,6 +11,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
+// Util class for making GET requests to the API
+// It takes a URL, parameters, token, and a type reference as parameters
+// It also handles error responses and unauthorized responses
+
 @AllArgsConstructor
 public class ApiGetRequest<T> {
     private final WebClient webClient;

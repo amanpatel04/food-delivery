@@ -3,6 +3,7 @@ package com.foodservice.controller;
 import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 import com.foodservice.entity.dto.ApiResponseDTO;
 import com.foodservice.service.DeliveryDriverService;
+import com.foodservice.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 public class DeliveryDriverController {
 
     private final DeliveryDriverService deliveryDriverservice;
+    private final OrderService orderService;
     
 //    Logger log = LoggerFactory.getLogger(DeliveryDriverController.class);
 //    private static final Logger log = LoggerFactory.getLogger(DeliveryDriverController.class);
@@ -106,5 +108,15 @@ public class DeliveryDriverController {
     	 		 return ResponseEntity.status(200)
     	 				 .header("Content-Type", "application/json")
     	 				 .body(new ApiResponseDTO(200, "Total orders fetched successfully", list.size()));
+     }
+     
+     @GetMapping("/{orderId}/driver")
+     public ResponseEntity<ApiResponseDTO> getDriverByOrder(@PathVariable Long orderId) {
+
+         DeliveryDriverResponseDTO driver = orderService.getDriverByOrder(orderId);
+
+         return ResponseEntity.ok(
+                 new ApiResponseDTO(200, "Driver fetched successfully", driver)
+         );
      }
 }

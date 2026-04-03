@@ -241,6 +241,14 @@ public class CustomMapper {
         // Map customer fields as needed
         return dto;
     }
+    
+    public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setDriverName(driver.getDriverName());
+        dto.setDriverPhone(driver.getDriverPhone());
+        dto.setDriverVehicle(driver.getDriverVehicle());
+        return dto;
+    }
 
 
 }

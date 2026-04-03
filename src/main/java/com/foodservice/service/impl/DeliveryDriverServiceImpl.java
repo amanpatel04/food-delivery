@@ -105,4 +105,15 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
                 .map(mapper::toCustomerDTO)
                 .toList();
     }
+    
+    @Override
+    public DeliveryDriverResponseDTO getDriverByOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        if (order.getDriver() == null) {
+            throw new RuntimeException("Driver not assigned to this order");
+        }
+
+        return mapper.toDriverDTO(order.getDriver());
+    }
 }

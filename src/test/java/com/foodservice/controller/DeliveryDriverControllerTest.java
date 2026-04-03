@@ -1,5 +1,6 @@
 package com.foodservice.controller;
 
+import com.foodservice.entity.DeliveryDriver;
 import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 import com.foodservice.service.DeliveryDriverService;
 
@@ -52,6 +53,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 	    @Autowired
 	    private ObjectMapper objectMapper;
+	    
+	    @Mock
+	    private OrderRepository orderRepository;
+
+	    @Mock
+	    private CustomMapper mapper;
+
+	    @InjectMocks
+	    private OrderServiceImpl orderService;
 
     // ---------------- GET DRIVER BY ID ----------------
     @Test
@@ -189,5 +199,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         mockMvc.perform(get("/api/v1/drivers/1/total-orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value(2));
+    }
+    
+    @Test
+    void testGetDriverByOrderController() throws Exception {
+
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setDriverName("John");
+
+        Mockito.when(orderService.getDriverByOrder(1L)).thenReturn(dto);
+
+        mockMvc.perform(get("/api/v1/orders/1/driver"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.driverName").value("John"));
     }
 }

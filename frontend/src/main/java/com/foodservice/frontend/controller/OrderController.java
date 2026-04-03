@@ -2,6 +2,7 @@ package com.foodservice.frontend.controller;
 
 import com.foodservice.frontend.entity.dto.OrderCustomerDTO;
 import com.foodservice.frontend.entity.dto.OrderWithItemDTO;
+import com.foodservice.frontend.entity.dto.RestaurantRevenueDTO;
 import com.foodservice.frontend.helper.OrderTotalCost;
 import com.foodservice.frontend.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,8 @@ public class OrderController {
 
     @GetMapping("/customer/{customerId}")
     public String getOrdersByCustomerId(@PathVariable("customerId") Integer customerId,
-                                        Model model,
                                         @RequestParam Map<String, String> params,
+                                        Model model,
                                         @CookieValue(name = "token", required = true) String token) {
 
         OrderCustomerDTO orderCustomerDTO = orderService.getOrdersByCustomerId(customerId, params, token);
@@ -43,9 +44,9 @@ public class OrderController {
 
     @GetMapping("/detail/{orderId}")
     public String getOrderDetailsById(@PathVariable("orderId") Integer orderId,
-                                     Model model,
-                                     @RequestParam Map<String, String> params,
-                                     @CookieValue(name = "token", required = true) String token) {
+                                      @RequestParam Map<String, String> params,
+                                      Model model,
+                                      @CookieValue(name = "token", required = true) String token) {
 
         OrderWithItemDTO orderWithItemDTO = orderService.getOrderDetailsById(orderId, params, token);
 
@@ -63,6 +64,26 @@ public class OrderController {
 
         model.addAttribute("title", "Search");
         return "pages/order-search";
+
+    }
+
+    @GetMapping("/revenue/restaurant")
+    public String getRestaurantRevenuePage(@CookieValue(name = "token", required = true) String token) {
+
+        return "pages/restaurant-revenue";
+    }
+
+    @GetMapping("/revenue/restaurant/{id}")
+    public String getRestaurantRevenue(@PathVariable("id") Integer id,
+                                       @RequestParam Map<String, String> params,
+                                       Model model,
+                                       @CookieValue(name = "token", required = true) String token) {
+
+        RestaurantRevenueDTO restaurantRevenueDTO = orderService.getRestaurantRevenue(id, params, token);
+
+        model.addAttribute("restaurantRevenueDTO", restaurantRevenueDTO);
+
+        return "pages/restaurant-revenue";
 
     }
 }

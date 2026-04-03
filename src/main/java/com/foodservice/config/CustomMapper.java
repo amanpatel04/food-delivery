@@ -211,13 +211,13 @@ public class CustomMapper {
     }*/
     
  // Add these methods to CustomMapper class
-    public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setDriverName(driver.getDriverName());
-        dto.setDriverPhone(driver.getDriverPhone());
-        dto.setDriverVehicle(driver.getDriverVehicle());
-        return dto;
-    }
+//    public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
+//        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+//        dto.setDriverName(driver.getDriverName());
+//        dto.setDriverPhone(driver.getDriverPhone());
+//        dto.setDriverVehicle(driver.getDriverVehicle());
+//        return dto;
+//    }
 
     public DeliveryDriverResponseDTO toOrderDTO(Order order) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();

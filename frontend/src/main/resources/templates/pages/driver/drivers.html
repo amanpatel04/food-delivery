@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layouts/base :: layout(~{::section})">
+
+<section>
+    <h2>Drivers</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="driver : ${drivers}">
+                <td th:text="${driver.id}"></td>
+                <td th:text="${driver.name}"></td>
+                <td>
+                    <span th:text="${driver.status}"
+                          th:classappend="${driver.status == 'AVAILABLE'} ? 'badge-success' : 'badge-danger'">
+                    </span>
+                </td>
+                <td th:text="${driver.phone}"></td>
+                <td>
+                    <a th:href="@{/drivers/{id}(id=${driver.id})}" class="btn btn-primary">
+                        View
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+</html>

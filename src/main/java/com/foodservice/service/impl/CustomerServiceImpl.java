@@ -61,7 +61,6 @@ public class CustomerServiceImpl implements CustomerService {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Customer> customers = customerRepository.findCustomersByCity(city , pageable);
-
         return customers
                 .map(CustomMapper::customerToCustomerDTO)
                 .getContent();   //  convert Page → List
@@ -102,7 +101,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         Integer totalOrders = (int) items.stream()
                 .map(OrderItemDetailDTO::getOrderDate)
-                .distinct()
                 .count();
 
         Double totalSpend = items.stream()

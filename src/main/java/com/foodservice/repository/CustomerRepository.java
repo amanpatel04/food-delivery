@@ -17,4 +17,7 @@ public interface CustomerRepository extends JpaRepository<Customer , Integer> {
     WHERE LOWER(a.city) LIKE LOWER(CONCAT('%', :city, '%'))
 """)
     Page<Customer> findCustomersByCity(@Param("city") String city, Pageable pageable);
+
+
+
 }

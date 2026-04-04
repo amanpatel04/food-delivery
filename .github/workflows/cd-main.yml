@@ -64,6 +64,7 @@ jobs:
           key: ${{ secrets.MACHINE }}
           script: |
             cd /home/aman/foodservice
+            cd backend
             pkill -f foodservice-backend || true
             nohup java -jar foodservice-backend.jar --spring.profiles.active=prod > backend.log &
             cd ../frontend

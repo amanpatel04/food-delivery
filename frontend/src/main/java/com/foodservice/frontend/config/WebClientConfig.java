@@ -18,7 +18,6 @@ public class WebClientConfig {
 
     private final Environment env;
 
-
     @Bean
     public WebClient webClient() {
 

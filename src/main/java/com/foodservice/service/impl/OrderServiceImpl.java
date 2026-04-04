@@ -2,6 +2,7 @@ package com.foodservice.service.impl;
 
 import com.foodservice.config.CustomMapper;
 import com.foodservice.entity.Customer;
+import com.foodservice.entity.DeliveryDriver;
 import com.foodservice.entity.Order;
 import com.foodservice.entity.OrderItem;
 import com.foodservice.entity.dto.*;

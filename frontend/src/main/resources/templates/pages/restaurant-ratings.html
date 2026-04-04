@@ -149,12 +149,13 @@
                 </button>
 
                 <!-- Rows per page -->
-                <select class="filter-select" id="rows-select" style="margin-left:auto">
-                    <option value="5"  th:selected="${param.size == '5' or param.size == null}">5 / page</option>
-                    <option value="10" th:selected="${param.size == '10'}">10 / page</option>
-                    <option value="20" th:selected="${param.size == '20'}">20 / page</option>
+                <select class="filter-select" id="rows-select" style="margin-left:auto" onchange="applyFilters()">
+                    <option value="5"  th:selected="${restaurantRatingsDTO.page.size == 5}">5 / page</option>
+                    <option value="10" th:selected="${restaurantRatingsDTO.page.size == 10}">10 / page</option>
+                    <option value="20" th:selected="${restaurantRatingsDTO.page.size == 20}">20 / page</option>
                 </select>
             </div>
+
 
             <!-- Ratings Table Card -->
             <div class="table-card" th:if="${restaurantRatingsDTO != null and restaurantRatingsDTO.content != null}">

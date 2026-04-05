@@ -73,10 +73,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     WHERE io.order.orderId = :orderId
 """)
     List<ItemWithQuantity> getOrderItemWithQuantityById(@Param("orderId") Integer orderId);
-
     List<Order> findByDeliveryDriverDriverId(Integer driverId);
 
-    // Add this query to your existing OrderRepository
+	List<Order> findByDeliveryDriverDriverIdAndCustomerCustomerId(Integer driverId, Integer customerId);
 
     @Query("""
     SELECT new com.foodservice.entity.dto.RestaurantRevenueDTO(
@@ -99,6 +98,4 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             @Param("fromDate") LocalDateTime fromDate,
             @Param("toDate") LocalDateTime toDate);
 
-    List<Order> findByDeliveryDriverDriverIdAndCustomerCustomerId(Integer driverId, Integer customerId);
-//    List<Order> findByDeliveryDriverDriverId(Integer driverId);
 }

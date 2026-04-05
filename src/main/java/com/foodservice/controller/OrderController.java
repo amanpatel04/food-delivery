@@ -95,4 +95,22 @@ public class OrderController {
                 ));
     }
 
+
+
+    //driversbyorderid
+
+    @GetMapping("/{id}/driver")
+    public ResponseEntity<ApiResponseDTO> getDriverByOrderId(@PathVariable Integer id) {
+
+        DriverResponseDTO driver = orderService.getDriverByOrderId(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ApiResponseDTO(
+                        200,
+                        "Driver fetched successfully for order ID: " + id,
+                        driver
+                ));
+    }
+
 }

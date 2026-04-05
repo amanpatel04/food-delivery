@@ -27,9 +27,7 @@ public class CouponViewController {
 
     // Fetch coupons for a given order
     @GetMapping("/coupons")
-    public String getCoupons(@RequestParam int orderId,
                              Model model,
-                             @CookieValue(name = "token", required = true) String token) {
 
         List<OrderCouponDTO> coupons =
                 couponClientService.getCouponsByOrder(orderId, token);

@@ -63,11 +63,15 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.MACHINE }}
           script: |
-            cd /home/aman/foodservice
-            pkill -f foodservice-backend || true
-            nohup java -jar foodservice-backend.jar --spring.profiles.active=prod > backend.log &
-            cd ../frontend
-            pkill -f foodservice-frontend || true
-            nohup java -jar foodservice-frontend.jar --spring.profiles.active=prod > frontend.log &
-            cd ..
-
+            cd /home/aman/foodservice/backend
+            pkill -f foodservice-backend.jar || true
+            nohup java -jar foodservice-backend.jar \
+              --spring.config.location=file:/home/aman/foodservice/backend/ \
+              --spring.profiles.active=prod \
+              > backend.log 2>&1 &
+            cd /home/aman/foodservice/frontend
+            pkill -f foodservice-frontend.jar || true
+            nohup java -jar foodservice-frontend.jar \
+              --spring.config.location=file:/home/aman/foodservice/frontend/ \
+              --spring.profiles.active=prod \
+              > frontend.log 2>&1 &

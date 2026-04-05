@@ -176,33 +176,26 @@ public class CustomMapper {
 
         if (order == null) return dto;
 
-        dto.setOrderId(order.getOrderId());   // 🔥 ADD THIS
-
+        dto.setOrderId(order.getOrderId());
         dto.setOrderStatus(order.getOrderStatus());
 
+        // Customer
         if (order.getCustomer() != null) {
+            dto.setCustomerId(order.getCustomer().getCustomerId());
             dto.setCustomerName(order.getCustomer().getCustomerName());
-            dto.setCustomerId(order.getCustomer().getCustomerId()); // optional
         }
 
+        // Restaurant
         if (order.getRestaurant() != null) {
-            dto.setResturentName(order.getRestaurant().getRestaurantName());
-            dto.setResturentId(order.getRestaurant().getRestaurantId()); // optional
+            dto.setRestaurantId(order.getRestaurant().getRestaurantId());   // ✅ FIX NAME
+            dto.setRestaurantName(order.getRestaurant().getRestaurantName()); // ✅ FIX NAME
         }
 
-        if (order.getCustomer() != null) {
-            dto.setCustomerName(order.getCustomer().getCustomerName());
-            dto.setCustomerId(order.getCustomer().getCustomerId());  // 🔥 ADD THIS
-        }
-
+        // Driver
         if (order.getDeliveryDriver() != null) {
             dto.setDriverId(order.getDeliveryDriver().getDriverId());
             dto.setDriverName(order.getDeliveryDriver().getDriverName());
             dto.setDriverPhone(order.getDeliveryDriver().getDriverPhone());
-            dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
-        }
-
-        if (order.getDeliveryDriver() != null) {
             dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
         }
 

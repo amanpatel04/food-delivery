@@ -25,5 +25,4 @@ public class Customer {
 
     @Column(name = "customer_phone")
     private String customerPhone;
-
 }

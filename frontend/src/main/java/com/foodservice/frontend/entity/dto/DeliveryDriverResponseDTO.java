@@ -7,13 +7,15 @@ public class DeliveryDriverResponseDTO {
     private Integer driverId;
     private String driverName;
     private String driverPhone;
-    private String driverVehicle;
 
     private Integer customerId;
     private String customerName;
 
+    private Integer orderId;
+
     private Integer restaurantId;
     private String restaurantName;
+    private String driverVehicle;
 
     private String orderStatus;
 }

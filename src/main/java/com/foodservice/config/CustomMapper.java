@@ -170,68 +170,40 @@ public class CustomMapper {
         return deliveryDriverDTO;
     }
 
- // -------- Driver → DTO --------
-    /*public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setDriverId(driver.getDriverId());
-        dto.setDriverName(driver.getDriverName());
-        dto.setDriverPhone(driver.getDriverPhone());
-        dto.setDriverVehicle(driver.getDriverVehicle());
-        return dto;
-    }
-
-    // -------- Order → DTO --------
-    public DeliveryDriverResponseDTO toOrderDTO(Order order) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-
-        dto.setDriverId(order.getDeliveryDriver().getDriverId());
-        dto.setDriverName(order.getDeliveryDriver().getDriverName());
-
-        dto.setOrderId(order.getOrderId());
-        dto.setOrderStatus(order.getOrderStatus());
-
-        dto.setCustomerName(order.getCustomer().getCustomerName());
-        dto.setResturentName(order.getRestaurant().getRestaurantName());
-
-        return dto;
-    }
-
-    // -------- Customer → DTO --------
-    public DeliveryDriverResponseDTO toCustomerDTO(Customer customer) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setCustomerId(customer.getCustomerId());
-        dto.setCustomerName(customer.getCustomerName());
-        return dto;
-    }
-
-    // -------- Restaurant → DTO --------
-    public DeliveryDriverResponseDTO toRestaurantDTO(Restaurant restaurant) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setRestaurantId(restaurant.getRestaurantId());
-        dto.setResturentName(restaurant.getRestaurantName());
-        return dto;
-    }*/
-    
- // Add these methods to CustomMapper class
-//    public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
-//        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-//        dto.setDriverName(driver.getDriverName());
-//        dto.setDriverPhone(driver.getDriverPhone());
-//        dto.setDriverVehicle(driver.getDriverVehicle());
-//        return dto;
-//    }
 
     public DeliveryDriverResponseDTO toOrderDTO(Order order) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+
+        if (order == null) return dto;
+
+        dto.setOrderId(order.getOrderId());   // 🔥 ADD THIS
 
         dto.setOrderStatus(order.getOrderStatus());
 
         if (order.getCustomer() != null) {
             dto.setCustomerName(order.getCustomer().getCustomerName());
+            dto.setCustomerId(order.getCustomer().getCustomerId()); // optional
         }
 
         if (order.getRestaurant() != null) {
-            dto.setResturentName(order.getRestaurant().getRestaurantName()); // 🔥 ADD THIS
+            dto.setResturentName(order.getRestaurant().getRestaurantName());
+            dto.setResturentId(order.getRestaurant().getRestaurantId()); // optional
+        }
+
+        if (order.getCustomer() != null) {
+            dto.setCustomerName(order.getCustomer().getCustomerName());
+            dto.setCustomerId(order.getCustomer().getCustomerId());  // 🔥 ADD THIS
+        }
+
+        if (order.getDeliveryDriver() != null) {
+            dto.setDriverId(order.getDeliveryDriver().getDriverId());
+            dto.setDriverName(order.getDeliveryDriver().getDriverName());
+            dto.setDriverPhone(order.getDeliveryDriver().getDriverPhone());
+            dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
+        }
+
+        if (order.getDeliveryDriver() != null) {
+            dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
         }
 
         return dto;
@@ -239,22 +211,28 @@ public class CustomMapper {
 
     public DeliveryDriverResponseDTO toRestaurantDTO(Restaurant restaurant) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setResturentId(restaurant.getRestaurantId());
-        dto.setResturentName(restaurant.getRestaurantName());
+
+        dto.setRestaurantId(restaurant.getRestaurantId());
+        dto.setRestaurantName(restaurant.getRestaurantName());
+
+
+        return dto;
+    }
+    public DeliveryDriverResponseDTO toCustomerDTO(Customer customer) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setCustomerId(customer.getCustomerId());
+        dto.setCustomerName(customer.getCustomerName());
+
         return dto;
     }
 
-    public DeliveryDriverResponseDTO toCustomerDTO(Customer customer) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        // Map customer fields as needed
-        return dto;
-    }
-    
     public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setDriverId(driver.getDriverId());   // 🔥 ADD THIS
         dto.setDriverName(driver.getDriverName());
         dto.setDriverPhone(driver.getDriverPhone());
         dto.setDriverVehicle(driver.getDriverVehicle());
+
         return dto;
     }
 

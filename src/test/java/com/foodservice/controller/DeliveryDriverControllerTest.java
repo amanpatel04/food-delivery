@@ -82,6 +82,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         Mockito.when(deliveryDriverService.getAllDrivers())
                 .thenReturn(List.of(dto));
+//
 
         mockMvc.perform(get("/api/v1/drivers"))
                 .andExpect(status().isOk())
@@ -173,7 +174,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Mockito.when(deliveryDriverService.getRestaurantsByDriver(1))
                 .thenReturn(List.of(dto));
 
-        // ✅ FIXED URL
         mockMvc.perform(get("/api/v1/drivers/1/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0].resturentName").value("Dominos"));
@@ -207,4 +207,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.driverName").value("John"));
     }
+//
+//    @Test
+//    void testGetDriverByOrder() throws Exception {
+//        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+//    }
 }

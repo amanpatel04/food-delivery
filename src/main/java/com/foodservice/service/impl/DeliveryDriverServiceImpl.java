@@ -9,6 +9,8 @@ import com.foodservice.repository.DeliveryDriverRepository;
 import com.foodservice.repository.OrderRepository;
 import com.foodservice.service.DeliveryDriverService;
 
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,22 +50,31 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
 
     @Override
     public List<DeliveryDriverResponseDTO> getRestaurantsByDriver(Integer driverId) {
+
         log.info("Fetching restaurants for driver ID: {}", driverId);
 
         List<Order> orders = orderRepository.findByDeliveryDriverDriverId(driverId);
 
         return orders.stream()
-                .map(Order::getRestaurant)
-                .filter(restaurant -> restaurant != null)
-                .distinct()
-                .map(restaurant -> {
-                    DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+                .filter(order -> order.getRestaurant() != null)
+                .collect(Collectors.toMap(
+                        order -> order.getRestaurant().getRestaurantId(),
+                        order -> {
+                            DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
 
-                    dto.setResturentId(restaurant.getRestaurantId());
-                    dto.setResturentName(restaurant.getRestaurantName());
+                            dto.setRestaurantId(order.getRestaurant().getRestaurantId());
+                            dto.setRestaurantName(order.getRestaurant().getRestaurantName());
 
-                    return dto;
-                })
+                            if (order.getDeliveryDriver() != null) {
+                                dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
+                            }
+
+                            return dto;
+                        },
+                        (existing, replacement) -> existing
+                ))
+                .values()
+                .stream()
                 .toList();
     }
 
@@ -107,12 +118,13 @@ public class DeliveryDriverServiceImpl implements DeliveryDriverService {
 
     @Override
     public List<DeliveryDriverResponseDTO> getcustomerByDriver(Integer driverId) {
+
         log.info("Fetching customers for driver ID: {}", driverId);
-        List<Order> orders = orderRepository.findByDeliveryDriverDriverId(driverId);
+
+        List<Order> orders =
+                orderRepository.findByDeliveryDriverDriverId(driverId);
         return orders.stream()
-                .map(Order::getCustomer)
-                .distinct()
-                .map(mapper::toCustomerDTO)
+                .map(mapper::toOrderDTO)   // 🔥 FIX
                 .toList();
     }
     

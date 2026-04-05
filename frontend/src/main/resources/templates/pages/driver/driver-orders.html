@@ -10,7 +10,7 @@
 
 <body class="bg-gray-100 min-h-screen p-8">
 
-<div class="max-w-4xl mx-auto">
+<div class="max-w-5xl mx-auto">
 
     <!-- Header -->
     <div class="text-center mb-8">
@@ -26,7 +26,8 @@
             <!-- Table Header -->
             <thead>
             <tr class="bg-green-100 text-gray-700 text-left">
-                <th class="p-3 rounded-tl-xl">Status</th>
+                <th class="p-3 rounded-tl-xl">Order ID</th>
+                <th class="p-3">Status</th>
                 <th class="p-3">Customer</th>
                 <th class="p-3 rounded-tr-xl">Restaurant</th>
             </tr>
@@ -37,14 +38,23 @@
             <tr th:each="order : ${orders}"
                 class="border-b hover:bg-gray-50 transition">
 
+                <!-- Order ID -->
+                <td class="p-3 font-semibold text-gray-700"
+                    th:text="${order.orderId}">
+                </td>
+
+                <!-- Status -->
                 <td class="p-3 font-medium"
                     th:text="${order.orderStatus}"
                     th:classappend="${order.orderStatus == 'Delivered'} ? 'text-green-600' : 'text-yellow-600'">
                 </td>
 
+                <!-- Customer -->
                 <td class="p-3" th:text="${order.customerName}"></td>
 
+                <!-- Restaurant -->
                 <td class="p-3" th:text="${order.restaurantName}"></td>
+
             </tr>
             </tbody>
 

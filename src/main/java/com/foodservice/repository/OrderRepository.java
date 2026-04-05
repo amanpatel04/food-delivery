@@ -99,4 +99,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             @Param("fromDate") LocalDateTime fromDate,
             @Param("toDate") LocalDateTime toDate);
 
+    List<Order> findByDeliveryDriverDriverIdAndCustomerCustomerId(Integer driverId, Integer customerId);
+//    List<Order> findByDeliveryDriverDriverId(Integer driverId);
 }

@@ -341,7 +341,7 @@ class OrderControllerTest {
 
         when(orderService.getDriverByOrderId(1)).thenReturn(driver);
 
-        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 1))
+        mockMvc.perform(get("/api/v1/orders/{id}/driver", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(200))
@@ -362,7 +362,7 @@ class OrderControllerTest {
         when(orderService.getDriverByOrderId(999))
                 .thenThrow(new ResourceNotFoundException("Order not found with id: 999"));
 
-        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 999))
+        mockMvc.perform(get("/api/v1/orders/{id}/driver", 999))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(404))
@@ -379,7 +379,7 @@ class OrderControllerTest {
         when(orderService.getDriverByOrderId(1))
                 .thenThrow(new InvalidOperationException("Driver not assigned for order id: 1"));
 
-        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 1))
+        mockMvc.perform(get("/api/v1/orders/{id}/driver", 1))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(400))

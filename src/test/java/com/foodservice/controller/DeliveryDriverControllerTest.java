@@ -1,13 +1,15 @@
 package com.foodservice.controller;
 
+import com.foodservice.entity.DeliveryDriver;
 import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 import com.foodservice.service.DeliveryDriverService;
-
+import com.foodservice.security.JwtService; 
+import com.foodservice.service.impl.UserDetailsServiceImpl; 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.foodservice.service.OrderService;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -44,14 +46,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 	    @MockBean
 	    private DeliveryDriverService deliveryDriverService;
 
-	    @MockBean
-	    private com.foodservice.security.JwtService jwtService;
+        @MockBean
+        private OrderService orderService;
 
 	    @MockBean
-	    private com.foodservice.service.impl.UserDetailsServiceImpl userDetailsService;
+	    private JwtService jwtService;
 
+	    @MockBean
+	    private UserDetailsServiceImpl userDetailsService;
+	    
 	    @Autowired
 	    private ObjectMapper objectMapper;
+	    
 
     // ---------------- GET DRIVER BY ID ----------------
     @Test
@@ -79,6 +85,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         Mockito.when(deliveryDriverService.getAllDrivers())
                 .thenReturn(List.of(dto));
+//
 
         mockMvc.perform(get("/api/v1/drivers"))
                 .andExpect(status().isOk())
@@ -165,15 +172,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     void testGetRestaurantsByDriver() throws Exception {
 
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setResturentName("Dominos");
+        dto.setRestaurantName("Dominos");
 
         Mockito.when(deliveryDriverService.getRestaurantsByDriver(1))
                 .thenReturn(List.of(dto));
 
-        // ✅ FIXED URL
         mockMvc.perform(get("/api/v1/drivers/1/restaurants"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0].resturentName").value("Dominos"));
+                .andExpect(jsonPath("$.data[0].restaurantName").value("Dominos"));
     }
 
     // ---------------- GET TOTAL ORDERS ----------------
@@ -190,4 +196,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value(2));
     }
+
+    @Test
+    void testGetDriverByOrderController() throws Exception {
+
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setDriverName("John");
+
+        Mockito.when(deliveryDriverService.getDriverByOrder(1))
+                .thenReturn(dto);
+
+        mockMvc.perform(get("/api/v1/drivers/1/driver"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.driverName").value("John"));
+    }
+//
+//    @Test
+//    void testGetDriverByOrder() throws Exception {
+//        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+//    }
 }

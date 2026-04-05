@@ -6,16 +6,20 @@ import com.foodservice.entity.dto.*;
 import com.foodservice.exception.InvalidOperationException;
 import com.foodservice.exception.OrderInvalidRequestException;
 import com.foodservice.exception.ResourceNotFoundException;
+import com.foodservice.service.DeliveryDriverService;
 import com.foodservice.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import com.foodservice.exception.GlobalExceptionHandler;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -45,7 +49,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "jwt.secret=testSecretKey12345678901234567890123456789012345678901234567890",
     "jwt.expiration=86400000"
 })
+@AutoConfigureMockMvc(addFilters = false)
 @DisplayName("Order Controller Tests")
+@Import(GlobalExceptionHandler.class)
 class OrderControllerTest {
 
     @Autowired
@@ -53,6 +59,9 @@ class OrderControllerTest {
 
     @MockBean
     private OrderService orderService;
+
+    @MockBean
+    private DeliveryDriverService deliveryDriverService;
     
     @MockBean
     private com.foodservice.security.JwtService jwtService;

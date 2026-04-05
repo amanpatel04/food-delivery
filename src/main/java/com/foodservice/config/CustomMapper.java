@@ -170,76 +170,62 @@ public class CustomMapper {
         return deliveryDriverDTO;
     }
 
- // -------- Driver → DTO --------
-    /*public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setDriverId(driver.getDriverId());
-        dto.setDriverName(driver.getDriverName());
-        dto.setDriverPhone(driver.getDriverPhone());
-        dto.setDriverVehicle(driver.getDriverVehicle());
-        return dto;
-    }
 
-    // -------- Order → DTO --------
     public DeliveryDriverResponseDTO toOrderDTO(Order order) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
 
-        dto.setDriverId(order.getDeliveryDriver().getDriverId());
-        dto.setDriverName(order.getDeliveryDriver().getDriverName());
+        if (order == null) return dto;
 
         dto.setOrderId(order.getOrderId());
         dto.setOrderStatus(order.getOrderStatus());
 
-        dto.setCustomerName(order.getCustomer().getCustomerName());
-        dto.setResturentName(order.getRestaurant().getRestaurantName());
+        // Customer
+        if (order.getCustomer() != null) {
+            dto.setCustomerId(order.getCustomer().getCustomerId());
+            dto.setCustomerName(order.getCustomer().getCustomerName());
+        }
+
+        // Restaurant
+        if (order.getRestaurant() != null) {
+            dto.setRestaurantId(order.getRestaurant().getRestaurantId());   // ✅ FIX NAME
+            dto.setRestaurantName(order.getRestaurant().getRestaurantName()); // ✅ FIX NAME
+        }
+
+        // Driver
+        if (order.getDeliveryDriver() != null) {
+            dto.setDriverId(order.getDeliveryDriver().getDriverId());
+            dto.setDriverName(order.getDeliveryDriver().getDriverName());
+            dto.setDriverPhone(order.getDeliveryDriver().getDriverPhone());
+            dto.setDriverVehicle(order.getDeliveryDriver().getDriverVehicle());
+        }
 
         return dto;
     }
 
-    // -------- Customer → DTO --------
+    public DeliveryDriverResponseDTO toRestaurantDTO(Restaurant restaurant) {
+        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+
+        dto.setRestaurantId(restaurant.getRestaurantId());
+        dto.setRestaurantName(restaurant.getRestaurantName());
+
+
+        return dto;
+    }
     public DeliveryDriverResponseDTO toCustomerDTO(Customer customer) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
         dto.setCustomerId(customer.getCustomerId());
         dto.setCustomerName(customer.getCustomerName());
+
         return dto;
     }
-
-    // -------- Restaurant → DTO --------
-    public DeliveryDriverResponseDTO toRestaurantDTO(Restaurant restaurant) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setRestaurantId(restaurant.getRestaurantId());
-        dto.setResturentName(restaurant.getRestaurantName());
-        return dto;
-    }*/
 
     public DeliveryDriverResponseDTO toDriverDTO(DeliveryDriver driver) {
         DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+        dto.setDriverId(driver.getDriverId());   // 🔥 ADD THIS
         dto.setDriverName(driver.getDriverName());
         dto.setDriverPhone(driver.getDriverPhone());
         dto.setDriverVehicle(driver.getDriverVehicle());
-        return dto;
-    }
 
-    public DeliveryDriverResponseDTO toOrderDTO(Order order) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setCustomerId(order.getCustomer().getCustomerId());
-        dto.setCustomerName(order.getCustomer().getCustomerName());
-        dto.setResturentId(order.getRestaurant().getRestaurantId());
-        dto.setResturentName(order.getRestaurant().getRestaurantName());
-        dto.setOrderStatus(order.getOrderStatus());
-        return dto;
-    }
-
-    public DeliveryDriverResponseDTO toRestaurantDTO(Restaurant restaurant) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        dto.setResturentId(restaurant.getRestaurantId());
-        dto.setResturentName(restaurant.getRestaurantName());
-        return dto;
-    }
-
-    public DeliveryDriverResponseDTO toCustomerDTO(Customer customer) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
-        // Map customer fields as needed
         return dto;
     }
 

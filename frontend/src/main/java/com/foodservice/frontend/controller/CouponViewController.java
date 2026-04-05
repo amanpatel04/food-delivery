@@ -27,23 +27,14 @@ public class CouponViewController {
 
     // Fetch coupons for a given order
     @GetMapping("/coupons")
-    public String getCoupons(@RequestParam(required = false) Integer orderId,
+    public String getCoupons(@RequestParam int orderId,
                              Model model,
-                             @CookieValue(name = "token") String token) {
+                             @CookieValue(name = "token", required = true) String token) {
 
-        if (orderId == null) {
-            return "coupons";
-        }
+        List<OrderCouponDTO> coupons =
+                couponClientService.getCouponsByOrder(orderId, token);
 
-        try {
-            List<OrderCouponDTO> coupons =
-                    couponClientService.getCouponsByOrder(orderId, token);
-
-            model.addAttribute("coupons", coupons);
-
-        } catch (Exception e) {
-            model.addAttribute("error", "No coupons found for this order");
-        }
+        model.addAttribute("coupons", coupons);
 
         return "coupons";
     }

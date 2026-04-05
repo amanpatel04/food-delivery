@@ -1,7 +1,6 @@
 package com.foodservice.frontend.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -20,8 +19,6 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClient() {
-
-
         String baseUrl = env.getProperty("api.baseUrl");
         if (baseUrl == null) {
             throw new RuntimeException("API base URL not found");

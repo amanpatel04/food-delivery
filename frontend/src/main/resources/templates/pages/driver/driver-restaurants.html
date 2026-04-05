@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Restaurants</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-8">
+
+<div class="max-w-4xl mx-auto">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Driver Restaurants</h2>
+        <p class="text-gray-500">Restaurants served by this driver</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white shadow-lg rounded-2xl p-6">
+
+        <table class="w-full border-collapse">
+
+            <!-- Table Header -->
+            <thead>
+            <tr class="bg-green-100 text-gray-700 text-left">
+                <th class="p-3 rounded-tl-xl">Restaurant ID</th>
+                <th class="p-3">Restaurant Name</th>
+                <th class="p-3 rounded-tr-xl">Vehicle</th>
+            </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+            <tr th:each="restaurant : ${restaurants}"
+                class="border-b hover:bg-gray-50 transition">
+
+                <td class="p-3 font-medium"
+                    th:text="${restaurant.restaurantId}"></td>
+
+                <td class="p-3"
+                    th:text="${restaurant.restaurantName}"></td>
+
+                <td class="p-3 text-gray-600"
+                    th:text="${restaurant.driverVehicle}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-6 text-center">
+        <a href="/drivers/dashboard"
+           class="inline-block bg-green-500 text-white px-6 py-2 rounded-xl hover:bg-green-600 transition">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

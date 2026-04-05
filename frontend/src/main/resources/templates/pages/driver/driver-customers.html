@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Customers</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-8">
+
+<div class="max-w-4xl mx-auto">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Driver Customers</h2>
+        <p class="text-gray-500">Customers served by this driver</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white shadow-lg rounded-2xl p-6">
+
+        <table class="w-full border-collapse">
+
+            <!-- Table Header -->
+            <thead>
+            <tr class="bg-green-100 text-gray-700 text-left">
+                <th class="p-3 rounded-tl-xl">Customer ID</th>
+                <th class="p-3">Name</th>
+                <th class="p-3 rounded-tr-xl">Order Status</th>
+            </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+            <tr th:each="customer : ${customers}"
+                class="border-b hover:bg-gray-50 transition">
+
+                <td class="p-3 font-medium"
+                    th:text="${customer.customerId}"></td>
+
+                <td class="p-3"
+                    th:text="${customer.customerName}"></td>
+
+                <!-- Status badge -->
+                <td class="p-3">
+                        <span class="px-3 py-1 rounded-full text-white text-sm"
+                              th:text="${customer.orderStatus}"
+                              th:classappend="${customer.orderStatus == 'Delivered'} ? 'bg-green-500' : 'bg-yellow-500'">
+                        </span>
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-6 text-center">
+        <a href="/drivers/dashboard"
+           class="inline-block bg-gray-800 text-white px-6 py-2 rounded-xl hover:bg-gray-900 transition">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

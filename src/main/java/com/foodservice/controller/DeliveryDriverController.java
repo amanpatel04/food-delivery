@@ -3,6 +3,7 @@ package com.foodservice.controller;
 import com.foodservice.entity.dto.DeliveryDriverResponseDTO;
 import com.foodservice.entity.dto.ApiResponseDTO;
 import com.foodservice.service.DeliveryDriverService;
+import com.foodservice.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,18 +18,19 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/v1/drivers")
-//@RequiredArgsConstructor
-//@Slf4j
+@RequiredArgsConstructor
+@Slf4j
 public class DeliveryDriverController {
 
     private final DeliveryDriverService deliveryDriverservice;
+    private final OrderService orderService;
     
 //    Logger log = LoggerFactory.getLogger(DeliveryDriverController.class);
 //    private static final Logger log = LoggerFactory.getLogger(DeliveryDriverController.class);
     
-    public DeliveryDriverController(DeliveryDriverService deliveryDriverservice){
-		this.deliveryDriverservice = deliveryDriverservice; 
-	}
+//    public DeliveryDriverController(DeliveryDriverService deliveryDriverservice){
+//		this.deliveryDriverservice = deliveryDriverservice; 
+//	}
 
     // ---------------- Get Driver by ID --------------
     @GetMapping(value = "/{driverId}", produces = "application/json")
@@ -106,5 +108,13 @@ public class DeliveryDriverController {
     	 		 return ResponseEntity.status(200)
     	 				 .header("Content-Type", "application/json")
     	 				 .body(new ApiResponseDTO(200, "Total orders fetched successfully", list.size()));
+     }
+     
+     @GetMapping("/{orderId}/driver")
+     public ResponseEntity<ApiResponseDTO> getDriverByOrder(@PathVariable Integer orderId){
+         DeliveryDriverResponseDTO driver = deliveryDriverservice.getDriverByOrder(orderId);
+         return ResponseEntity.ok(
+                 new ApiResponseDTO(200, "Driver fetched successfully", driver)
+         );
      }
 }

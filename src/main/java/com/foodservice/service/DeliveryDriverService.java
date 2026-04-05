@@ -24,4 +24,5 @@ public interface DeliveryDriverService {
 	List<DeliveryDriverResponseDTO> getCustomerOrderByDriver(Integer driverId, Integer customerId);
 
 	List<DeliveryDriverResponseDTO> getRestaurantsByDriver(Integer driverId);
+	DeliveryDriverResponseDTO getDriverByOrder(Integer orderId);
 }

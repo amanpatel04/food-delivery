@@ -11,8 +11,8 @@ public class DeliveryDriverResponseDTO {
     private String driverPhone;
     private String driverVehicle;
     private Integer orderId;
-    private String resturentName;
-    private Integer resturentId;
+	private Integer restaurantId;
+	private String restaurantName;
     private Integer customerId;
     private String customerName;
     private String orderStatus;
@@ -54,10 +54,10 @@ public class DeliveryDriverResponseDTO {
 		this.customerId = customerId;
 	}
 	public String getResturentName() {
-		return resturentName;
+		return restaurantName;
 	}
 	public void setResturentName(String resturentName) {
-		this.resturentName = resturentName;
+		this.restaurantName = resturentName;
 	}
 	public String getOrderStatus() {
 		return orderStatus;
@@ -66,10 +66,10 @@ public class DeliveryDriverResponseDTO {
 		this.orderStatus = orderStatus;
 	}
 	public Integer getResturentId() {
-		return resturentId;
+		return restaurantId;
 	}
 	public void setResturentId(Integer resturentId) {
-		this.resturentId = resturentId;
+		this.restaurantId = resturentId;
 	}
 	public String getCustomerName() {
 		return customerName;

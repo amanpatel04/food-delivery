@@ -2,7 +2,7 @@ package com.foodservice.controller;
 
 import com.foodservice.entity.Order;
 import com.foodservice.entity.dto.*;
-
+import com.foodservice.service.DeliveryDriverService;
 import com.foodservice.service.OrderService;
 
 import jakarta.validation.groups.Default;
@@ -23,6 +23,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final DeliveryDriverService deliveryDriverService;
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<ApiResponseDTO> getOrdersByCustomerId(@PathVariable Integer customerId,
@@ -64,6 +65,35 @@ public class OrderController {
                         "Revenue fetched successfully for restaurant ID: " + restaurantId,
                         revenue));
     }
+    
+//    @GetMapping("/{orderId}/driver")
+//    public ResponseEntity<ApiResponseDTO> getDriverByOrder(@PathVariable Integer orderId) {
+//
+//        DeliveryDriverResponseDTO driver =
+//                deliveryDriverService.getDriverByOrder(orderId);
+//
+//        return ResponseEntity.ok(
+//                new ApiResponseDTO(200, "Driver fetched successfully", driver)
+//        );
+//    }
+
+
+
+    //driversbyorderid
+
+//    @GetMapping("/{id}/driver")
+//    public ResponseEntity<ApiResponseDTO> getDriverByOrderId(@PathVariable Integer id) {
+//
+//        DriverResponseDTO driver = orderService.getDriverByOrderId(id);
+//
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(new ApiResponseDTO(
+//                        200,
+//                        "Driver fetched successfully for order ID: " + id,
+//                        driver
+//                ));
+//    }
 
 
 

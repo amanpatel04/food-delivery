@@ -6,11 +6,13 @@ import com.foodservice.entity.dto.*;
 import com.foodservice.exception.InvalidOperationException;
 import com.foodservice.exception.OrderInvalidRequestException;
 import com.foodservice.exception.ResourceNotFoundException;
+import com.foodservice.service.DeliveryDriverService;
 import com.foodservice.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -45,6 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "jwt.secret=testSecretKey12345678901234567890123456789012345678901234567890",
     "jwt.expiration=86400000"
 })
+@AutoConfigureMockMvc(addFilters = false)
 @DisplayName("Order Controller Tests")
 class OrderControllerTest {
 
@@ -53,6 +56,9 @@ class OrderControllerTest {
 
     @MockBean
     private OrderService orderService;
+
+    @MockBean
+    private DeliveryDriverService deliveryDriverService;
     
     @MockBean
     private com.foodservice.security.JwtService jwtService;
@@ -332,7 +338,7 @@ class OrderControllerTest {
 
         when(orderService.getDriverByOrderId(1)).thenReturn(driver);
 
-        mockMvc.perform(get("/api/v1/orders/{id}/driver", 1))
+        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(200))
@@ -353,7 +359,7 @@ class OrderControllerTest {
         when(orderService.getDriverByOrderId(999))
                 .thenThrow(new ResourceNotFoundException("Order not found with id: 999"));
 
-        mockMvc.perform(get("/api/v1/orders/{id}/driver", 999))
+        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 999))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(404))
@@ -370,7 +376,7 @@ class OrderControllerTest {
         when(orderService.getDriverByOrderId(1))
                 .thenThrow(new InvalidOperationException("Driver not assigned for order id: 1"));
 
-        mockMvc.perform(get("/api/v1/orders/{id}/driver", 1))
+        mockMvc.perform(get("/api/v1/drivers/{id}/driver", 1))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(400))
